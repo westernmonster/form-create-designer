@@ -6,7 +6,7 @@
     @dragleave="handleDragleave"
     @drop="handleDrop"
   >
-    <n-layout-content>
+    <n-layout-content class="n-main">
       <n-layout has-sider style="height: 100%" :key="locale && locale.name">
         <n-layout-sider
           class="_fc-l-menu"
@@ -15,48 +15,48 @@
           v-if="false !== getConfig('showMenuBar')"
         >
           <n-tooltip :delay="0" placement="right">
-            <template #tooltip>
-              {{ t("designer.comList") }}
+            <template #trigger>
+              <div
+                class="_fc-l-menu-item"
+                :class="{ active: activeModule === 'base' }"
+                @click="activeModule = 'base'"
+              >
+                <i class="fc-icon icon-menu"></i>
+              </div>
             </template>
-            <div
-              class="_fc-l-menu-item"
-              :class="{ active: activeModule === 'base' }"
-              @click="activeModule = 'base'"
-            >
-              <i class="fc-icon icon-menu"></i>
-            </div>
+            {{ t("designer.comList") }}
           </n-tooltip>
           <n-tooltip
             v-if="getConfig('showLanguage', true)"
             :delay="0"
             placement="right"
           >
-            <template #tooltip>
-              {{ t("language.name") }}
+            <template #trigger>
+              <div
+                class="_fc-l-menu-item"
+                :class="{ active: activeModule === 'language' }"
+                @click="activeModule = 'language'"
+              >
+                <i class="fc-icon icon-language"></i>
+              </div>
             </template>
-            <div
-              class="_fc-l-menu-item"
-              :class="{ active: activeModule === 'language' }"
-              @click="activeModule = 'language'"
-            >
-              <i class="fc-icon icon-language"></i>
-            </div>
+            {{ t("language.name") }}
           </n-tooltip>
           <n-tooltip
             v-if="getConfig('showJsonPreview', true)"
             :delay="0"
             placement="right"
           >
-            <template #tooltip>
-              JSON
+            <template #trigger>
+              <div
+                class="_fc-l-menu-item"
+                :class="{ active: activeModule === 'json' }"
+                @click="activeModule = 'json'"
+              >
+                <i class="fc-icon icon-script"></i>
+              </div>
             </template>
-            <div
-              class="_fc-l-menu-item"
-              :class="{ active: activeModule === 'json' }"
-              @click="activeModule = 'json'"
-            >
-              <i class="fc-icon icon-script"></i>
-            </div>
+            JSON
           </n-tooltip>
         </n-layout-sider>
         <n-layout-sider
@@ -86,6 +86,7 @@
                 {{ t("menu.tree") }}
               </div>
             </n-layout-header>
+
             <n-layout-content v-show="activeMenuTab === 'menu'">
               <template v-for="(item, index) in menuList">
                 <div
@@ -155,7 +156,7 @@
                           data.rule?.__fc__?.refRule?.__$title?.value ||
                           data.rule.title ||
                           ""
-                        ).trim() ||
+                        )?.trim() ||
                         (data.rule.props && data.rule.props.label) ||
                         t(
                           "com." +
@@ -202,8 +203,8 @@
             </n-layout-content>
           </n-layout>
         </n-layout-sider>
-        <n-layout has-sider class="_fc-m">
-          <n-layout-header class="_fc-m-tools" style="height: 45px">
+        <n-layout direction="vertical" class="el-content">
+          <n-layout-header class="el-header _fc-m-tools" style="height: 45px">
             <div class="_fc-m-tools-l">
               <template v-if="!inputForm.state">
                 <template v-if="getConfig('showDevice') !== false">
@@ -241,78 +242,79 @@
               </template>
             </div>
             <div class="_fc-m-tools-r">
-              <div>
-                <template v-if="!inputForm.state">
-                  <slot name="handle"></slot>
-                  <n-button
-                    v-if="getConfig('showSaveBtn', false)"
-                    type="success"
-                    secondary
-                    size="small"
-                    @click="handleSave"
-                    ><i class="fc-icon icon-save-online"></i>
-                    {{ t("props.save") }}
-                  </n-button>
-                  <n-button
-                    v-if="false !== getConfig('showPreviewBtn')"
-                    type="primary"
-                    secondary
-                    size="small"
-                    @click="openPreview"
-                    ><i class="fc-icon icon-preview"></i> {{ t("props.preview") }}
-                  </n-button>
-                  <n-popconfirm
-                    @positive-click="clearDragRule"
-                    :positive-text="t('props.clear')"
-                    :negative-text="t('props.cancel')"
-                  >
-                    <template #default>
-                      {{ t("designer.clearWarn") }}
-                    </template>
-                    <template #trigger>
-                      <n-button type="error" secondary size="small"
-                        ><i class="fc-icon icon-delete"></i>{{ t("props.clear") }}
-                      </n-button>
-                    </template>
-                  </n-popconfirm>
-                  <n-dropdown
-                    trigger="click"
-                    v-if="handle && handle.length"
-                    :options="handle.map(item => ({ label: item.label, key: item }))"
-                    @select="(_, item) => triggerHandle(item)"
-                  >
-                    <n-button class="_fd-m-extend" secondary size="small">
-                      <i class="fc-icon icon-more"></i>
+              <template v-if="!inputForm.state">
+                <slot name="handle"></slot>
+                <n-button
+                  v-if="getConfig('showSaveBtn', false)"
+                  type="success"
+                  secondary
+                  size="small"
+                  @click="handleSave"
+                  ><i class="fc-icon icon-save-online"></i>
+                  {{ t("props.save") }}
+                </n-button>
+                <n-button
+                  v-if="false !== getConfig('showPreviewBtn')"
+                  type="primary"
+                  secondary
+                  size="small"
+                  @click="openPreview"
+                  ><i class="fc-icon icon-preview"></i>
+                  {{ t("props.preview") }}
+                </n-button>
+                <n-popconfirm
+                  @positive-click="clearDragRule"
+                  :positive-text="t('props.clear')"
+                  :negative-text="t('props.cancel')"
+                >
+                  <template #default>
+                    {{ t("designer.clearWarn") }}
+                  </template>
+                  <template #trigger>
+                    <n-button type="error" secondary size="small"
+                      ><i class="fc-icon icon-delete"></i>{{ t("props.clear") }}
                     </n-button>
-                  </n-dropdown>
-                </template>
-                <template v-if="getConfig('showInputData', true)">
-                  <div class="line"></div>
-                  <div class="_fd-input-btn">
-                    <n-switch
-                      size="medium"
-                      :value="inputForm.state"
-                      @update:value="openInputData"
-                    >
-                      <template #checked-icon>
-                        <i
-                          class="fc-icon icon-edit2"
-                          style="font-size: 12px; color: #fff"
-                        ></i>
-                      </template>
-                      <template #unchecked-icon>
-                        <i
-                          class="fc-icon icon-edit2"
-                          style="font-size: 12px; color: #333"
-                        ></i>
-                      </template>
-                    </n-switch>
-                  </div>
-                </template>
-              </div>
+                  </template>
+                </n-popconfirm>
+                <n-dropdown
+                  trigger="click"
+                  v-if="handle && handle.length"
+                  :options="
+                    handle.map((item) => ({ label: item.label, key: item }))
+                  "
+                  @select="(_, item) => triggerHandle(item)"
+                >
+                  <n-button class="_fd-m-extend" secondary size="small">
+                    <i class="fc-icon icon-more"></i>
+                  </n-button>
+                </n-dropdown>
+              </template>
+              <template v-if="getConfig('showInputData', true)">
+                <div class="line"></div>
+                <div class="_fd-input-btn">
+                  <n-switch
+                    size="medium"
+                    :value="inputForm.state"
+                    @update:value="openInputData"
+                  >
+                    <template #checked-icon>
+                      <i
+                        class="fc-icon icon-edit2"
+                        style="font-size: 12px; color: #fff"
+                      ></i>
+                    </template>
+                    <template #unchecked-icon>
+                      <i
+                        class="fc-icon icon-edit2"
+                        style="font-size: 12px; color: #333"
+                      ></i>
+                    </template>
+                  </n-switch>
+                </div>
+              </template>
             </div>
           </n-layout-header>
-          <n-layout-content class="_fc-m-con">
+          <n-layout-content class="el-main _fc-m-con">
             <a
               :key="activeRule ? activeRule._fc_id : ''"
               style="
@@ -2230,6 +2232,7 @@ export default defineComponent({
         children.splice(index, 0, rule);
         const firstRule = rule.type === "DragTool" ? rule.children[0] : rule;
         methods.handleAddAfter({ rule });
+
         if (firstRule && methods.getConfig("autoActive", true)) {
           nextTick(() => {
             methods.triggerActive(firstRule);

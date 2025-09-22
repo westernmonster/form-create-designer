@@ -1,6 +1,6 @@
 <template>
-    <span v-if="tooltip">
-        <i class="fc-icon icon-question _fd-warning-text" :title="tooltip"></i>
+    <span>
+        <i v-if="tooltip" class="fc-icon icon-question _fd-warning-text" :title="tooltip"></i>
     </span>
 </template>
 

@@ -14,14 +14,7 @@
             @select="handleImportSelect"
             placement="bottom-start"
           >
-            <template #trigger>
-              <n-button text>
-                <span>导入</span>
-                <n-icon>
-                  <ArrowDown />
-                </n-icon>
-              </n-button>
-            </template>
+            <n-button> 导入 </n-button>
           </n-dropdown>
           <n-dropdown
             trigger="click"
@@ -29,14 +22,7 @@
             @select="handleExportSelect"
             placement="bottom-start"
           >
-            <template #trigger>
-              <n-button text>
-                <span>导出</span>
-                <n-icon>
-                  <ArrowDown />
-                </n-icon>
-              </n-button>
-            </template>
+            <n-button> 导出 </n-button>
           </n-dropdown>
         </div>
       </template>
@@ -51,8 +37,8 @@
     >
       <div ref="editor" v-if="state"></div>
       <span style="color: red" v-if="err">输入内容格式有误!</span>
-      <template #action v-if="type > 2">
-        <n-space>
+      <template #action>
+        <n-space v-if="type > 2">
           <n-button @click="state = false" size="small">取 消</n-button>
           <n-button type="primary" @click="onOk" size="small">确 定</n-button>
         </n-space>

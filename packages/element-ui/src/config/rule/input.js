@@ -45,7 +45,7 @@ export default {
         ]),
       },
       {
-        type: "InputNumber",
+        type: "inputNumber",
         field: "maxlength",
         props: { min: 0 },
       },

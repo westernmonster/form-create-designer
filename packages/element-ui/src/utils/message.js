@@ -1,12 +1,9 @@
-import {ElMessage} from 'element-plus';
+import {useMessage} from 'naive-ui';
 
 
 const message = (msg, type) => {
-    return ElMessage({
-        message: msg,
-        type: type || 'info',
-        customClass: '_fc-message-tip',
-    });
+    const _message = useMessage();
+    return _message[type || 'info'](msg);
 };
 
 const errorMessage = (msg) => {

@@ -1,7 +1,7 @@
 import {localeOptions, localeProps} from '../../utils';
 
 const label = '卡片';
-const name = 'elCard';
+const name = 'Card';
 
 export default {
     menu: 'layout',
@@ -15,7 +15,7 @@ export default {
         return {
             type: name,
             props: {
-                header: t('com.elCard.props.header')
+                header: t('com.Card.props.header')
             },
             style: {
                 width: '100%'

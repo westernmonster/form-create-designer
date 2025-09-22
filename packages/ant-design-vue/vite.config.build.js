@@ -71,14 +71,17 @@ export default defineConfig({
                 '@form-create/ant-design-vue'
             ],
 
-        },
-        brotliSize: true
+        }
     },
     css: {
         postcss: {
             plugins: [
                 cssnano({
-                    preset: 'advanced'
+                    preset: ['advanced', {
+                        discardComments: {
+                            removeAll: true
+                        }
+                    }]
                 })
             ]
         }

@@ -3,30 +3,31 @@
         <div class="_fd-fn-tip">
             <div class="_fd-fn-ind"></div>
             <div class="cm-keyword"><span>function {{ name }}(<template
-                v-for="(item, idx) in argList">{{ idx > 0 ? ', ' : '' }}<template v-if="item.type === 'string'">
-<span>{{ item.name }}</span>
-</template><template v-else><el-popover placement="top-start" :width="400" :hide-after="0" trigger="click"
-                                        :title="item.name"
-                                        :content="item.info || ''"
-            ><template #reference><span class="_fd-fn-arg">{{ item.name }}<i
-                class="fc-icon icon-question"></i></span></template>
-                            <template v-if="item.columns">
-                                <el-table :data="item.columns" border>
-                            <el-table-column width="120" property="label" :label="t('event.label')"/>
-                            <el-table-column property="info" :label="t('event.info')"/>
-                            <el-table-column width="80" property="type" :label="t('event.type')"/>
-                          </el-table>
+                v-for="(item, idx) in argList">
+                <span>
+                    {{ idx > 0 ? ', ' : '' }}<template v-if="item.type === 'string'">{{ item.name }}</template><template v-else><n-popover placement="top-start" style="max-width: 400px" trigger="click"
+                                        :title="item.name">
+                            <template #trigger>
+                                <span>{{ item.name || 'param' }}</span>
                             </template>
-                        </el-popover>
+                            <div>
+                                <div>{{ item.info || '' }}</div>
+                                <template v-if="item.columns">
+                                    <n-data-table :data="item.columns" :bordered="true" size="small" :columns="tableColumns">
+                                        <template #empty></template>
+                                    </n-data-table>
+                                </template>
+                            </div>
+                        </n-popover>
                     </template>
-                    </template>) {</span></div>
+                </span>
+                </template>) {</span></div>
         </div>
         <div ref="editor" class="_fd-fn-editor"></div>
         <div class="_fd-fn-tip">
             <div class="_fd-fn-ind"></div>
             <div class="cm-keyword">}</div>
         </div>
-        <el-button v-if="visible && button" type="primary" size="small" @click="save">{{ t('props.save') }}</el-button>
     </div>
 </template>
 
@@ -40,12 +41,18 @@ import 'codemirror/addon/hint/javascript-hint';
 import {defineComponent, markRaw} from 'vue';
 import {addAutoKeyMap, toJSON} from '../utils';
 import errorMessage from '../utils/message';
+import {NPopover, NDataTable, NButton} from 'naive-ui';
 
 const PREFIX = '[[FORM-CREATE-PREFIX-';
 const SUFFIX = '-FORM-CREATE-SUFFIX]]';
 
 export default defineComponent({
     name: 'FnEditor',
+    components: {
+        NPopover,
+        NDataTable,
+        NButton
+    },
     emits: ['update:modelValue', 'change'],
     props: {
         modelValue: [String, Function],
@@ -93,6 +100,24 @@ export default defineComponent({
                 }
                 return arg;
             });
+        },
+        tableColumns() {
+            return [
+                {
+                    title: this.t('event.label'),
+                    key: 'label',
+                    width: 120
+                },
+                {
+                    title: this.t('event.info'),
+                    key: 'info'
+                },
+                {
+                    title: this.t('event.type'),
+                    key: 'type',
+                    width: 80
+                }
+            ];
         },
     },
     mounted() {
@@ -190,7 +215,7 @@ export default defineComponent({
     height: 100%;
 }
 
-._fd-fn .el-button {
+._fd-fn .n-button {
     position: absolute;
     bottom: 3px;
     right: 5px;

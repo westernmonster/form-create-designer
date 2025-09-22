@@ -1,30 +1,34 @@
 <template>
-    <el-container class="_fc-json-preview">
-        <el-header height="40px" class="_fc-l-tabs">
+    <n-layout class="_fc-json-preview">
+        <n-layout-header style="height: 40px; padding: 0;" class="_fc-l-tabs">
             <div class="_fc-l-tab"
                  :class="{active: active==='rule'}"
-                 @click="active='rule'"> {{ t('designer.json') }}
             </div>
             <div class="_fc-l-tab"
                  :class="{active: active==='options'}"
-                 @click="active='options'"> {{ t('designer.form') }}
             </div>
-        </el-header>
-        <el-main style="padding: 8px;">
+        </n-layout-header>
+        <n-layout-content style="padding: 8px;">
             <StructEditor ref="editor" v-model="value" @blur="handleBlur" @focus="handleFocus" format
                           style="height:100%;"></StructEditor>
-        </el-main>
-    </el-container>
+        </n-layout-content>
+    </n-layout>
 </template>
 
 <script>
 import {defineComponent} from 'vue';
 import StructEditor from './StructEditor.vue';
 import {designerForm} from '../utils/form';
+import {NLayout, NLayoutHeader, NLayoutContent} from 'naive-ui';
 
 export default defineComponent({
     name: 'JsonPreview',
-    components: {StructEditor},
+    components: {
+        StructEditor,
+        NLayout,
+        NLayoutHeader,
+        NLayoutContent
+    },
     inject: ['designer'],
     data() {
         return {

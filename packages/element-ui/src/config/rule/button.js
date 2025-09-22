@@ -1,7 +1,7 @@
 import {localeOptions, localeProps} from '../../utils';
 
 const label = '按钮';
-const name = 'elButton';
+const name = 'button';
 
 export default {
     menu: 'aide',
@@ -14,7 +14,7 @@ export default {
         return {
             type: name,
             props: {},
-            children: [t('com.elButton.name')],
+            children: [t('com.Button.name')],
         };
     },
     props(_, {t}) {
@@ -24,21 +24,21 @@ export default {
         }, {
             type: 'select',
             field: 'size',
-            options: localeOptions(t, [{label: 'large', value: 'large'}, {label: 'default', value: 'default'}, {
+            options: localeOptions(t, [{label: 'large', value: 'large'}, {label: 'medium', value: 'medium'}, {
                 label: 'small',
                 value: 'small'
-            }])
+            }, {label: 'tiny', value: 'tiny'}])
         }, {
             type: 'select',
             field: 'type',
-            options: [{label: 'primary', value: 'primary'}, {
+            options: [{label: 'default', value: 'default'}, {label: 'primary', value: 'primary'}, {
                 label: 'success',
                 value: 'success'
-            }, {label: 'warning', value: 'warning'}, {label: 'danger', value: 'danger'}, {
+            }, {label: 'warning', value: 'warning'}, {label: 'error', value: 'error'}, {
                 label: 'info',
                 value: 'info'
             }]
-        }, {type: 'switch', field: 'plain'}, {
+        }, {type: 'switch', field: 'text'}, {
             type: 'switch',
             field: 'round'
         }, {type: 'switch', field: 'circle'}, {

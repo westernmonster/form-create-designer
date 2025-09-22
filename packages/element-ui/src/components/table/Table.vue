@@ -1,5 +1,5 @@
 <template>
-    <el-col :span="24">
+    <n-grid-item :span="24">
         <div class="_fc-table" :class="{'is-mini': mini}">
             <table border="1" cellspacing="0" cellpadding="0" :style="tableColor">
                 <template v-for="(_,pid) in rule.row" :key="pid">
@@ -20,13 +20,17 @@
                 </template>
             </table>
         </div>
-    </el-col>
+    </n-grid-item>
 </template>
 
 <script>
+import {NGridItem} from 'naive-ui';
 
 export default {
     name: 'FcTable',
+    components: {
+        NGridItem
+    },
     props: {
         mini: Boolean,
         label: String,

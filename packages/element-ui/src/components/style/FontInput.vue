@@ -1,67 +1,44 @@
 <template>
     <ConfigItem :label="t('style.font.name')">
         <div class="_fd-fi-box" :style="fontStyle">
-            {{ t('style.font.preview') }}
         </div>
         <template #append>
             <div class="_fd-font-input">
-                <el-form label-width="50px" label-position="top" inline size="small">
-                    <el-form-item :label="t('style.font.family')">
-                        <el-select v-model="fontStyle.fontFamily" clearable @change="onInput">
-                            <el-option
-                                v-for="item in familyType"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value"
-                            >
-                                <span :style="{fontFamily: item.value}">{{ item.label }}</span>
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item :label="t('style.font.size')">
+                <n-form label- label-placement="top" inline size="small">
+                    <n-form-item :label="t('style.font.family')">
+                        <n-select v-model:value="fontStyle.fontFamily" clearable @update:value="onInput" :options="familyTypeOptions">
+                            <template #option="{ node, option }">
+                                <span :style="{fontFamily: option.value}">{{ option.label }}</span>
+                            </template>
+                        </n-select>
+                    </n-form-item>
+                    <n-form-item :label="t('style.font.size')">
                         <SizeInput v-model="fontStyle.fontSize" @change="onInput"/>
-                    </el-form-item>
-                    <el-form-item :label="t('style.weight.name')">
-                        <el-select v-model="fontStyle.fontWeight" clearable @change="onInput">
-                            <el-option
-                                v-for="item in weightType"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value"
-                            >
-                                <span :style="{fontWeight: item.value}">{{ item.label }}</span>
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item :label="t('style.decoration.name')">
-                        <el-select v-model="fontStyle.textDecoration" clearable @change="onInput">
-                            <el-option
-                                v-for="item in decorationType"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value"
-                            >
-                                <span :style="{textDecoration: item.value}">{{ item.label }}</span>
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item :label="t('style.font.align')">
-                        <el-select v-model="fontStyle.textAlign" clearable @change="onInput">
-                            <el-option
-                                v-for="item in alignType"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value"
-                            />
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item :label="t('style.font.height')">
+                    </n-form-item>
+                    <n-form-item :label="t('style.weight.name')">
+                        <n-select v-model:value="fontStyle.fontWeight" clearable @update:value="onInput" :options="weightTypeOptions">
+                            <template #option="{ node, option }">
+                                <span :style="{fontWeight: option.value}">{{ option.label }}</span>
+                            </template>
+                        </n-select>
+                    </n-form-item>
+                    <n-form-item :label="t('style.decoration.name')">
+                        <n-select v-model:value="fontStyle.textDecoration" clearable @update:value="onInput" :options="decorationTypeOptions">
+                            <template #option="{ node, option }">
+                                <span :style="{textDecoration: option.value}">{{ option.label }}</span>
+                            </template>
+                        </n-select>
+                    </n-form-item>
+                    <n-form-item :label="t('style.font.align')">
+                        <n-select v-model:value="fontStyle.textAlign" clearable @update:value="onInput" :options="alignTypeOptions"/>
+                    </n-form-item>
+                    <n-form-item :label="t('style.font.height')">
                         <SizeInput v-model="fontStyle.lineHeight" @change="onInput"/>
-                    </el-form-item>
-                    <el-form-item :label="t('style.font.spacing')">
+                    </n-form-item>
+                    <n-form-item :label="t('style.font.spacing')">
                         <SizeInput v-model="fontStyle.letterSpacing" @change="onInput"/>
-                    </el-form-item>
-                </el-form>
+                    </n-form-item>
+                </n-form>
             </div>
         </template>
     </ConfigItem>
@@ -73,10 +50,11 @@ import SizeInput from './SizeInput.vue';
 import ColorInput from './ColorInput.vue';
 import ConfigItem from './ConfigItem.vue';
 import {toLine} from '@form-create/utils';
+import {NForm, NFormItem, NSelect} from 'naive-ui';
 
 export default defineComponent({
-    name: 'BorderInput',
-    components: {ColorInput, SizeInput, ConfigItem},
+    name: 'FontInput',
+    components: {ColorInput, SizeInput, ConfigItem, NForm, NFormItem, NSelect},
     inject: ['designer'],
     emits: ['update:modelValue', 'change'],
     props: {
@@ -124,6 +102,18 @@ export default defineComponent({
                     return v;
                 }
             });
+        },
+        familyTypeOptions() {
+            return this.familyType;
+        },
+        weightTypeOptions() {
+            return this.weightType;
+        },
+        decorationTypeOptions() {
+            return this.decorationType;
+        },
+        alignTypeOptions() {
+            return this.alignType;
         },
     },
     data() {
@@ -178,19 +168,19 @@ export default defineComponent({
     overflow: hidden;
 }
 
-._fd-font-input .el-form {
+._fd-font-input .n-form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
     grid-column-gap: 10px;
 }
 
-._fd-font-input .el-form--inline .el-form-item {
+._fd-font-input .n-form--inline .n-form-item {
     margin: 0;
     padding: 0;
 }
 
-._fd-font-input ._fd-size-input .el-input-number--small {
+._fd-font-input ._fd-size-input .n-input-number {
     width: 100%;
 }
 

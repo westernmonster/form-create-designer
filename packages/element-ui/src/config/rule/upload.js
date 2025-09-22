@@ -99,7 +99,7 @@ export default {
             field: 'autoUpload',
             value: true
         }, {
-            type: 'inputNumber',
+            type: 'InputNumber',
             field: 'limit',
             props: {min: 0},
         }]);

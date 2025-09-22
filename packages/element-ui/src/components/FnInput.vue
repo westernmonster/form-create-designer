@@ -1,24 +1,26 @@
 <template>
     <div class="_fd-fn-input">
-        <el-badge type="warning" is-dot :hidden="!configured">
-            <el-button @click="visible=true" size="small">
+        <n-badge dot :show="configured" type="warning">
+            <n-button @click="visible=true" size="small">
                 <slot>
                     {{t('event.title')}}
                 </slot>
-            </el-button>
-        </el-badge>
-        <el-dialog class="_fd-fn-input-dialog _fd-config-dialog" :title="title || t('struct.title')" v-model="visible"
-                   destroy-on-close
-                   :close-on-click-modal="false"
-                   append-to-body width="800px">
+            </n-button>
+        </n-badge>
+        <n-modal
+            class="_fd-fn-input-dialog _fd-config-dialog"
+            :title="title || t('struct.title')"
+            v-model:show="visible"
+            preset="dialog"
+            :mask-closable="false"
+            style="width: 800px;"
+        >
             <FnEditor ref="editor" v-model="value" :name="name" :args="args" :body="body" :fnx="fnx"></FnEditor>
-            <template #footer>
-                <div>
-                    <el-button @click="visible = false" size="default">{{ t('props.cancel') }}</el-button>
-                    <el-button type="primary" @click="onOk" size="default">{{ t('props.ok') }}</el-button>
-                </div>
+            <template #action>
+                <n-space>
+                </n-space>
             </template>
-        </el-dialog>
+        </n-modal>
     </div>
 </template>
 
@@ -26,11 +28,18 @@
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/javascript/javascript';
 import {defineComponent} from 'vue';
+import {NBadge, NButton, NModal, NSpace} from 'naive-ui';
 import FnEditor from './FnEditor.vue';
 
 export default defineComponent({
     name: 'FnInput',
-    components: {FnEditor},
+    components: {
+        FnEditor,
+        NBadge,
+        NButton,
+        NModal,
+        NSpace
+    },
     emits: ['update:modelValue', 'change'],
     props: {
         modelValue: [String, Function],
@@ -81,11 +90,11 @@ export default defineComponent({
     width: 100%;
 }
 
-._fd-fn-input .el-badge {
+._fd-fn-input .n-badge {
     width: 100%;
 }
 
-._fd-fn-input .el-button {
+._fd-fn-input .n-button {
     font-weight: 400;
     width: 100%;
     border-color: #2E73FF;
@@ -96,7 +105,7 @@ export default defineComponent({
     z-index: 2021 !important;
 }
 
-._fd-fn-input-dialog .el-dialog__body {
+._fd-fn-input-dialog .n-dialog__content {
     padding: 0px;
     height: 500px;
 }

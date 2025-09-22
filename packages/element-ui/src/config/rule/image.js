@@ -1,7 +1,7 @@
 import {localeProps} from '../../utils';
 
 const label = '图片';
-const name = 'elImage';
+const name = 'Image';
 
 export default {
     menu: 'aide',

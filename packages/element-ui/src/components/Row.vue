@@ -1,17 +1,21 @@
 <template>
-    <el-col :span="24">
-        <div class="_fd-row el-row" :class="{'_fc-child-empty' : !$slots.default}" v-bind="$attrs">
+    <n-grid-item :span="24">
+        <div class="_fd-row n-row" :class="{'_fc-child-empty' : !$slots.default}" v-bind="$attrs">
             <slot name="default"></slot>
         </div>
-    </el-col>
+    </n-grid-item>
 
 </template>
 
 <script>
 import {defineComponent} from 'vue';
+import {NGridItem} from 'naive-ui';
 
 export default defineComponent({
     name: 'fcRow',
+    components: {
+        NGridItem
+    },
     mounted() {
     }
 

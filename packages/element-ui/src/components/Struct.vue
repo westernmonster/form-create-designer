@@ -1,25 +1,21 @@
 <template>
     <div class="_fd-struct">
-        <el-badge type="warning" is-dot :hidden="!configured">
+        <n-badge dot type="warning" :show="configured">
             <div @click="visible=true">
                 <slot>
-                    <el-button class="_fd-plain-button" plain size="small">
+                    <n-button class="_fd-plain-button" ghost size="small">
                         {{ title || t('struct.title') }}
-                    </el-button>
+                    </n-button>
                 </slot>
             </div>
-        </el-badge>
-        <el-dialog class="_fd-struct-con" :title="title || t('struct.title')" v-model="visible" destroy-on-close
-                   :close-on-click-modal="false"
-                   append-to-body width="800px">
+        </n-badge>
+        <n-modal class="_fd-struct-con" :title="title || t('struct.title')" v-model:show="visible" :mask-closable="false" preset="dialog" style="width: 800px">
             <div ref="editor" v-if="visible"></div>
-            <template #footer>
+            <template #action>
                 <div>
-                    <el-button @click="visible = false" size="default">{{ t('props.cancel') }}</el-button>
-                    <el-button type="primary" @click="onOk" size="default" color="#2f73ff">{{ t('props.ok') }}</el-button>
                 </div>
             </template>
-        </el-dialog>
+        </n-modal>
     </div>
 </template>
 
@@ -33,9 +29,15 @@ import {defineComponent, markRaw} from 'vue';
 import is from '@form-create/utils/lib/type';
 import errorMessage from '../utils/message';
 import beautify from 'js-beautify';
+import {NBadge, NButton, NModal} from 'naive-ui';
 
 export default defineComponent({
     name: 'Struct',
+    components: {
+        NBadge,
+        NButton,
+        NModal
+    },
     emits: ['update:modelValue'],
     props: {
         modelValue: [Object, Array, Function],
@@ -121,11 +123,11 @@ export default defineComponent({
     width: 100%;
 }
 
-._fd-struct .el-badge {
+._fd-struct .n-badge {
     width: 100%;
 }
 
-._fd-struct .el-button {
+._fd-struct .n-button {
     font-weight: 400;
     width: 100%;
     border-color: #2E73FF;
@@ -136,7 +138,7 @@ export default defineComponent({
     height: 500px;
 }
 
-._fd-struct-con .el-dialog__body {
+._fd-struct-con .n-modal-body {
     padding: 0px;
 }
 </style>

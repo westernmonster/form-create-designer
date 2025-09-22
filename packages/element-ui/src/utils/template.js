@@ -11,7 +11,7 @@ export function formTemplate(json, options) {
 </template>
 
 <script>
-import formCreate from "@form-create/element-ui";
+import formCreate from "@form-create/naive-ui";
 
 export default {
   components: {
@@ -48,7 +48,7 @@ export function formTemplateV3(json, options) {
 
 <script setup>
 import {ref} from "vue";
-import formCreate from "@form-create/element-ui";
+import formCreate from "@form-create/naive-ui";
 
 const option = ref(formCreate.parseJson('${options.replaceAll('\\', '\\\\').replaceAll('\'', '\\\'')}'));
 const rule = ref(formCreate.parseJson('${json.replaceAll('\\', '\\\\').replaceAll('\'', '\\\'')}'));
@@ -73,7 +73,7 @@ export function htmlTemplate(json, options) {
         <!-- Import element-plus -->
         <script src="https://unpkg.com/element-plus"></script>
         <!-- Import formCreate -->
-        <script src="https://unpkg.com/@form-create/element-ui@3"></script>
+        <script src="https://unpkg.com/@form-create/naive-ui@3"></script>
         <script src="https://unpkg.com/@form-create/designer@3"></script>
     </head>
     <body>

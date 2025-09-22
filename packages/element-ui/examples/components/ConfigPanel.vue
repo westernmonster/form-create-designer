@@ -347,9 +347,9 @@ export default defineComponent({
     computed: {
         items() {
             const items = [];
-            this.menus.forEach(menu => {
+            (this.menus || []).forEach(menu => {
                 if (menu.name !== 'template' && menu.list) {
-                    menu.list.forEach((item) => {
+                    (menu.list || []).forEach((item) => {
                         items.push({value: item.name, label: item.label});
                     });
                 }
@@ -423,13 +423,13 @@ export default defineComponent({
                 }
             })
             const componentPermission = [];
-            this.componentPermission.forEach(item => {
+            (this.componentPermission || []).forEach(item => {
                 if (item.tag.length) {
                     const p = {
                         tag: item.tag,
                         permission: {},
                     };
-                    this.defaultAuth.forEach(a => {
+                    (this.defaultAuth || []).forEach(a => {
                         if (item.permission.indexOf(a) === -1) {
                             p.permission[a] = false;
                         }
@@ -442,11 +442,11 @@ export default defineComponent({
             }
             const hiddenMenu = [];
             const hiddenItem = [];
-            this.menus.forEach(menu => {
+            (this.menus || []).forEach(menu => {
                 if (menu.open === false) {
                     hiddenMenu.push(menu.name);
                 } else if(menu.list) {
-                    menu.list.forEach((item) => {
+                    (menu.list || []).forEach((item) => {
                         if (menu.checked?.indexOf(item.name) === -1) {
                             hiddenItem.push(item.name);
                         }

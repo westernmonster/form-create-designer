@@ -1,63 +1,61 @@
 <template>
     <div class="_fd-fn-list">
-        <el-badge :value="eventNum" type="warning" :hidden="eventNum < 1">
-            <el-button @click="visible=true" size="small">{{ t('event.title') }}</el-button>
-        </el-badge>
-        <el-dialog class="_fd-fn-list-dialog" :title="t('event.title')" v-model="visible" destroy-on-close
-                   :close-on-click-modal="false"
-                   append-to-body
-                   width="1080px">
-            <el-container class="_fd-fn-list-con" style="height: 600px">
-                <el-aside style="width:300px;">
-                    <el-container class="_fd-fn-list-l">
-                        <el-header class="_fd-fn-list-head" height="40px">
-                            <el-text type="primary" size="default">
+        <n-badge :value="eventNum" type="warning" :hidden="eventNum < 1">
+            <n-button @click="visible=true" size="small">{{ t('event.title') }}</n-button>
+        </n-badge>
+        <n-modal class="_fd-fn-list-dialog" :title="t('event.title')" v-model:show="visible"
+                   :mask-closable="false"
+                   style="width: 1080px">
+            <n-layout has-sider class="_fd-fn-list-con" style="height: 600px">
+                <n-layout-sider style="width:300px;">
+                    <n-layout class="_fd-fn-list-l">
+                        <n-layout-header class="_fd-fn-list-head" height="40px">
+                            <n-text type="primary" size="default">
                                 {{ t('event.list') }}
-                            </el-text>
-                        </el-header>
-                        <el-main>
-                            <el-menu
+                            </n-text>
+                        </n-layout-header>
+                        <n-layout-content>
+                            <n-menu
                                 :default-active="defActive"
                                 v-model="activeData">
                                 <template v-for="(item, name) in event">
-                                    <el-menu-item :index="name">
+                                    <n-menu-item :index="name">
                                         <div class="_fd-fn-list-method" @click.stop="edit(item)">
                                             <span>function<span>{{ name }}</span></span>
                                             <span class="_fd-label" v-if="eventInfo[name]">{{ eventInfo[name] }}</span>
                                             <span class="_fd-dot" v-if="item.fn"></span>
                                         </div>
-                                    </el-menu-item>
+                                    </n-menu-item>
                                 </template>
-                            </el-menu>
-                        </el-main>
-                    </el-container>
-                </el-aside>
-                <el-main>
-                    <el-container class="_fd-fn-list-r">
-                        <el-header class="_fd-fn-list-head" height="40px" v-if="activeData">
-                            <el-button size="small" @click="close">{{ t('props.cancel') }}</el-button>
-                            <el-button size="small" type="primary" @click="save" color="#2f73ff">{{
+                            </n-menu>
+                        </n-layout-content>
+                    </n-layout>
+                </n-layout-sider>
+                <n-layout-content>
+                    <n-layout class="_fd-fn-list-r">
+                        <n-layout-header class="_fd-fn-list-head" height="40px" v-if="activeData">
+                            <n-button size="small" @click="close">{{ t('props.cancel') }}</n-button>
+                            <n-button size="small" type="primary" @click="save" color="#2f73ff">{{
                                     t('props.save')
                                 }}
-                            </el-button>
-                        </el-header>
-                        <el-main v-if="activeData">
+                            </n-button>
+                        </n-layout-header>
+                        <n-layout-content v-if="activeData">
                             <FnEditor ref="fn" v-model="eventStr" :name="activeData.item.name"
                                       :args="activeData.item.args"/>
-                        </el-main>
-                    </el-container>
-                </el-main>
-            </el-container>
+                        </n-layout-content>
+                    </n-layout>
+                </n-layout-content>
+            </n-layout>
             <template #footer>
                 <div>
-                    <el-button size="default" @click="visible=false">{{ t('props.cancel') }}</el-button>
-                    <el-button type="primary" size="default" @click="submit" color="#2f73ff">{{
+                    <n-button type="primary" size="default" @click="submit" color="#2f73ff">{{
                             t('props.ok')
                         }}
-                    </el-button>
+                    </n-button>
                 </div>
             </template>
-        </el-dialog>
+        </n-modal>
     </div>
 </template>
 
@@ -182,22 +180,22 @@ export default defineComponent({
 </script>
 
 <style>
-._fd-fn-list, ._fd-fn-list .el-badge {
+._fd-fn-list, ._fd-fn-list .n-badge {
     width: 100%;
 }
 
-._fd-fn-list .el-button {
+._fd-fn-list .n-button {
     font-weight: 400;
     width: 100%;
     border-color: #2E73FF;
     color: #2E73FF;
 }
 
-._fd-fn-list-dialog .el-dialog__body {
+._fd-fn-list-dialog .n-modal__body {
     padding: 10px 20px;
 }
 
-._fd-fn-list-con .el-main {
+._fd-fn-list-con .n-layout-content {
     padding: 0;
 }
 
@@ -217,7 +215,7 @@ export default defineComponent({
     align-items: center;
 }
 
-._fd-fn-list-head .el-button.is-link {
+._fd-fn-list-head .n-button.is-link {
     color: #2f73ff;
 }
 
@@ -229,7 +227,7 @@ export default defineComponent({
     justify-content: flex-end;
 }
 
-._fd-fn-list-l > .el-main, ._fd-fn-list-r > .el-main {
+._fd-fn-list-l > .n-layout-content, ._fd-fn-list-r > .n-layout-content {
     display: flex;
     flex-direction: row;
     flex: 1;
@@ -239,11 +237,11 @@ export default defineComponent({
     width: 100%;
 }
 
-._fd-fn-list-r > .el-main {
+._fd-fn-list-r > .n-layout-content {
     flex-direction: column;
 }
 
-._fd-fn-list-l .el-menu {
+._fd-fn-list-l .n-menu {
     padding: 0 10px 5px;
     border-right: 0 none;
     width: 100%;
@@ -251,12 +249,12 @@ export default defineComponent({
     overflow: auto;
 }
 
-._fd-fn-list-l .el-menu-item.is-active {
+._fd-fn-list-l .n-menu-item--selected {
     background: #e4e7ed;
     color: #303133;
 }
 
-._fd-fn-list-l .el-menu-item {
+._fd-fn-list-l .n-menu-item {
     height: auto;
     line-height: 1em;
     border: 1px solid #ECECEC;

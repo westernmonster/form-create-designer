@@ -1,16 +1,14 @@
 <template>
     <div class="_fd-html-editor">
-        <el-button @click="visible=true" style="width: 100%;">{{ title || t('struct.title') }}</el-button>
-        <el-dialog class="_fd-html-editor-con" :title="title || t('struct.title')" v-model="visible"
-                  :close-on-click-modal="false" append-to-body>
+        <n-button @click="visible=true" style="width: 100%;">{{ title || t('struct.title') }}</n-button>
+        <n-modal class="_fd-html-editor-con" :title="title || t('struct.title')" v-model:show="visible"
+                 :mask-closable="false" preset="dialog">
             <div ref="editor" v-if="visible"></div>
-            <template #footer>
+            <template #action>
                 <div>
-                    <el-button @click="visible = false" size="default">{{ t('props.cancel') }}</el-button>
-                    <el-button type="primary" @click="onOk" size="default">{{ t('props.ok') }}</el-button>
                 </div>
             </template>
-        </el-dialog>
+        </n-modal>
     </div>
 </template>
 
@@ -19,9 +17,14 @@ import 'codemirror/lib/codemirror.css';
 import CodeMirror from 'codemirror/lib/codemirror';
 import {defineComponent, markRaw} from 'vue';
 import errorMessage from '../utils/message';
+import {NButton, NModal} from 'naive-ui';
 
 export default defineComponent({
     name: 'HtmlEditor',
+    components: {
+        NButton,
+        NModal
+    },
     emits: ['update:modelValue'],
     props: {
         modelValue: String,
@@ -99,7 +102,7 @@ export default defineComponent({
     width: 100%;
 }
 
-._fd-html-editor .el-button {
+._fd-html-editor .n-button {
     font-weight: 400;
     width: 100%;
     border-color: #2E73FF;
@@ -119,7 +122,7 @@ export default defineComponent({
     z-index: 2021 !important;
 }
 
-._fd-html-editor-con .el-dialog__body {
+._fd-html-editor-con .n-modal-body {
     padding: 0px 20px;
 }
 </style>

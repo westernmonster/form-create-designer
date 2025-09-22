@@ -1,5 +1,5 @@
-import {Api, Options, Rule} from "@form-create/element-ui";
-import FormCreate from "@form-create/element-ui";
+import {Api, Options, Rule} from "@form-create/naive-ui";
+import FormCreate from "@form-create/naive-ui";
 import {Component, Plugin, Ref, App} from "vue";
 
 //多语言读取函数

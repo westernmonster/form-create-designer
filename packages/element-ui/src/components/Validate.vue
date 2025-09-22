@@ -9,55 +9,45 @@
                     </div>
                     <i class="fc-icon icon-delete2" @click="remove(idx)"></i>
                 </div>
-                <el-row>
-                    <el-col :span="getSpan(item)">
-                        <el-form-item :label="t('validate.mode')">
-                            <el-select v-model="item.trigger" @change="onInput">
-                                <el-option
-                                    v-for="item in triggers"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value"
-                                />
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="getSpan(item)">
-                        <el-form-item :label="modes[item.mode]">
+                <n-grid :cols="24" :x-gap="12">
+                    <n-grid-item :span="getSpan(item)">
+                        <n-form-item :label="t('validate.mode')">
+                            <n-select v-model:value="item.trigger" :options="triggers" @update:value="onInput" />
+                        </n-form-item>
+                    </n-grid-item>
+                    <n-grid-item :span="getSpan(item)">
+                        <n-form-item :label="modes[item.mode]">
                             <template v-if="item.mode === 'pattern'">
-                                <elInput v-model="item[item.mode]" @change="onInput"></elInput>
+                                <n-input v-model:value="item[item.mode]" @update:value="onInput" />
                             </template>
                             <template v-else-if="item.mode === 'validator'">
                                 <FnInput v-model="item[item.mode]" name="name" :args="['rule', 'value', 'callback']"
-                                         @change="onInput">{{ t('validate.modes.validator') }}
                                 </FnInput>
                             </template>
                             <template v-else>
-                                <el-input-number v-model="item[item.mode]" @change="onInput"></el-input-number>
+                                <n-input-number v-model:value="item[item.mode]" @update:value="onInput" style="width: 100%" />
                             </template>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item :label="t('validate.message')">
+                        </n-form-item>
+                    </n-grid-item>
+                    <n-grid-item :span="24">
+                        <n-form-item :label="t('validate.message')">
                             <LanguageInput v-model="item.message" :placeholder="t('validate.requiredPlaceholder')"
                                            @change="onInput">
                             </LanguageInput>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
+                        </n-form-item>
+                    </n-grid-item>
+                </n-grid>
             </div>
         </template>
 
-        <el-dropdown trigger="click" size="default" popper-class="_fd-validate-pop" @command="handleCommand">
-            <el-button class="_fd-validate-btn" size="small">{{ t('validate.rule') }} +</el-button>
-            <template #dropdown>
-                <el-dropdown-menu>
-                    <el-dropdown-item :command="value" v-for="(label, value) in modes" :key="value">
-                        <div>{{ label }}</div>
-                    </el-dropdown-item>
-                </el-dropdown-menu>
+        <n-dropdown trigger="click" :options="modeOptions" @select="handleCommand">
+            <template #trigger>
+                <n-button type="primary" size="small">
+                    <i class="fc-icon icon-add"></i>
+                    {{ t('validate.add') }}
+                </n-button>
             </template>
-        </el-dropdown>
+        </n-dropdown>
     </div>
 </template>
 
@@ -67,6 +57,7 @@ import {localeOptions} from '../utils';
 import FnInput from './FnInput.vue';
 import {deepCopy} from '@form-create/utils/lib/deepextend';
 import LanguageInput from './language/LanguageInput.vue';
+import {NGrid, NGridItem, NFormItem, NSelect, NInput, NInputNumber, NDropdown, NButton} from 'naive-ui';
 
 export default defineComponent({
     name: 'Validate',
@@ -78,6 +69,14 @@ export default defineComponent({
     components: {
         LanguageInput,
         FnInput,
+        NGrid,
+        NGridItem,
+        NFormItem,
+        NSelect,
+        NInput,
+        NInputNumber,
+        NDropdown,
+        NButton
     },
     watch: {
         modelValue(n) {
@@ -115,15 +114,22 @@ export default defineComponent({
                 {label: 'change', value: 'change'},
                 {label: 'submit', value: 'submit'},
             ]);
+        },
+        modeOptions() {
+            return Object.entries(this.modes).map(([value, label]) => ({
+                label,
+                key: value
+            }));
         }
     },
     methods: {
-        handleCommand(mode) {
+        handleCommand(key) {
             this.validate.push({
                 transform: new Function('val', 'this.type = val == null ? \'string\' : (Array.isArray(val) ? \'array\' : (typeof val)); return val;'),
-                mode,
+                mode: key,
                 trigger: 'blur'
             });
+            this.onInput();
         },
         autoMessage(item) {
             const title = this.designer.setupState.activeRule.title;
@@ -182,24 +188,12 @@ export default defineComponent({
     color: #2E73FF;
 }
 
-._fd-validate-pop .el-dropdown-menu__item {
-    width: 248px;
-}
-
 ._fd-validate-item {
     border-bottom: 1px dashed #ECECEC;
     margin-bottom: 10px;
 }
 
-._fd-validate-item .el-col-12:first-child {
-    padding-right: 5px;
-}
-
-._fd-validate-item .el-col-12 + .el-col-12 {
-    padding-left: 5px;
-}
-
-._fd-validate-item .el-input-number {
+._fd-validate-item .n-input-number {
     width: 100%;
 }
 
@@ -238,7 +232,4 @@ export default defineComponent({
     cursor: pointer;
 }
 
-._fd-validate .el-input-group__append {
-    padding: 0 10px;
-}
 </style>

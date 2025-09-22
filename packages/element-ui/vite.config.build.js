@@ -67,17 +67,20 @@ export default defineConfig({
             external: [
                 'vue',
                 'element-plus',
-                '@form-create/element-ui'
+                '@form-create/naive-ui'
             ],
 
-        },
-        brotliSize: true
+        }
     },
     css: {
         postcss: {
             plugins: [
                 cssnano({
-                    preset: 'advanced'
+                    preset: ['advanced', {
+                        discardComments: {
+                            removeAll: true
+                        }
+                    }]
                 })
             ]
         }

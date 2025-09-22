@@ -2,7 +2,6 @@
     <div class="_fd-box-space-input">
         <div class="_padding">
             <span class="_padding-title">
-                {{ t('style.margin') }}
             </span>
             <input class="_fd-input _fd-top" placeholder="        " :value="boxStyle.marginTop" type="text"
                    @blur="(e)=>setValue('margin','Top', e)" @input="(e)=>change('marginTop', e)">
@@ -19,7 +18,6 @@
             </div>
             <div class="_margin">
                 <span class="_margin-title">
-                    {{ t('style.padding') }}
                 </span>
                 <div class="_fd-help">
                     <i class="fc-icon icon-link2" title="lock" :class="paddingLock ? 'active' : ''"

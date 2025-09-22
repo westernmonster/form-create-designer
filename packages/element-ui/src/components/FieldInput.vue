@@ -1,17 +1,17 @@
 <template>
     <div class="_fd-field-input">
         <i class="fc-icon icon-group" @click.stop="copy"></i>
-        <el-input
-            v-model="value"
+        <n-input
+            v-model:value="value"
             :readonly="fieldReadonly || disabled"
             :disabled="fieldReadonly || disabled"
             @focus="onFocus"
             @blur="onInput"
         >
-            <template #append v-if="!fieldReadonly">
+            <template #suffix v-if="!fieldReadonly">
                 <i class="fc-icon icon-auto" @click="makeField"></i>
             </template>
-        </el-input>
+        </n-input>
     </div>
 </template>
 
@@ -21,9 +21,13 @@ import uniqueId from '@form-create/utils/lib/unique';
 import errorMessage from '../utils/message';
 import {copyTextToClipboard} from '../utils/index';
 import is from '@form-create/utils/lib/type';
+import {NInput} from 'naive-ui';
 
 export default defineComponent({
     name: 'FieldInput',
+    components: {
+        NInput
+    },
     inject: ['designer'],
     emits: ['update:modelValue'],
     props: {
@@ -144,7 +148,7 @@ export default defineComponent({
     color: #2E73FF;
 }
 
-._fd-field-input .el-input-group__append {
+._fd-field-input .n-input__suffix {
     width: 25px;
     padding: 0;
     margin: 0;

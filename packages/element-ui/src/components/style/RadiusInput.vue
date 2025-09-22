@@ -158,7 +158,7 @@ export default defineComponent({
     align-items: center;
 }
 
-._fd-radius-item ._fd-size-input .el-input-number--small {
+._fd-radius-item ._fd-size-input .n-input-number {
     width: 70px;
 }
 </style>

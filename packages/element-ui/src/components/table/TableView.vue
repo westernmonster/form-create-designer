@@ -37,55 +37,9 @@
                                            style="transform: rotate(90deg);"></i>
                                     </div>
                                     <div class="_fd-drag-btn _fd-table-view-btn" @click.stop>
-                                        <el-dropdown trigger="click" @command="command">
+                                        <n-dropdown trigger="click" :options="getDropdownOptions(pid, idx)" @select="command">
                                             <i class="fc-icon icon-setting"></i>
-                                            <template #dropdown>
-                                                <el-dropdown-menu>
-                                                    <el-dropdown-item
-                                                        :command="['addCol', [{pid,idx,data: lattice[pid][idx]}, 1]]">
-                                                        {{ t('tableOptions.addLeft') }}
-                                                    </el-dropdown-item>
-                                                    <el-dropdown-item
-                                                        :command="['addCol', [{pid,idx,data: lattice[pid][idx]}, 0]]">
-                                                        {{ t('tableOptions.addRight') }}
-                                                    </el-dropdown-item>
-                                                    <el-dropdown-item
-                                                        :command="['addRow', [{pid,idx,data: lattice[pid][idx]}, 1]]">
-                                                        {{ t('tableOptions.addTop') }}
-                                                    </el-dropdown-item>
-                                                    <el-dropdown-item
-                                                        :command="['addRow', [{pid,idx,data: lattice[pid][idx]}, 0]]">
-                                                        {{ t('tableOptions.addBottom') }}
-                                                    </el-dropdown-item>
-                                                    <el-dropdown-item divided :disabled="lattice[pid][idx].right"
-                                                                      :command="['mergeRight', [{pid,idx,data: lattice[pid][idx]}]]">
-                                                        {{ t('tableOptions.mergeRight') }}
-                                                    </el-dropdown-item>
-                                                    <el-dropdown-item :disabled="lattice[pid][idx].bottom"
-                                                                      :command="['mergeBottom', [{pid,idx,data: lattice[pid][idx]}]]">
-                                                        {{ t('tableOptions.mergeBottom') }}
-                                                    </el-dropdown-item>
-                                                    <el-dropdown-item divided
-                                                                      :disabled="!(lattice[pid][idx].layout && lattice[pid][idx].layout.col > 1)"
-                                                                      :command="['splitCol', [{pid,idx,data: lattice[pid][idx]}]]">
-                                                        {{ t('tableOptions.splitCol') }}
-                                                    </el-dropdown-item>
-                                                    <el-dropdown-item
-                                                        :disabled="!(lattice[pid][idx].layout && lattice[pid][idx].layout.row > 1)"
-                                                        :command="['splitRow', [{pid,idx,data: lattice[pid][idx]}]]">
-                                                        {{ t('tableOptions.splitRow') }}
-                                                    </el-dropdown-item>
-                                                    <el-dropdown-item divided :disabled="rule.col < 2"
-                                                                      :command="['rmCol', [{pid,idx,data: lattice[pid][idx]}]]">
-                                                        {{ t('tableOptions.rmCol') }}
-                                                    </el-dropdown-item>
-                                                    <el-dropdown-item :disabled="rule.row < 2"
-                                                                      :command="['rmRow', [{pid,idx,data: lattice[pid][idx]}]]">
-                                                        {{ t('tableOptions.rmRow') }}
-                                                    </el-dropdown-item>
-                                                </el-dropdown-menu>
-                                            </template>
-                                        </el-dropdown>
+                                        </n-dropdown>
                                     </div>
 
                                 </template>
@@ -96,8 +50,6 @@
             </template>
         </table>
         <div class="_fd-table-context-menu" v-if="visible" :style="menuPos">
-            <div class="_fd-table-context-menuitem" @click.stop="selectionStyle">{{ t('props.style') }}</div>
-            <div class="_fd-table-context-menuitem" @click.stop="rmSelectionContent">{{ t('props.clear') }}</div>
             <div class="_fd-table-context-menu-separator"></div>
             <div class="_fd-table-context-menuitem" @click.stop="mergeSelection(false)">{{
                     t('tableOptions.batchMerge')
@@ -109,19 +61,15 @@
             </div>
             <div class="_fd-table-context-menuitem"
                  @click.stop="addCol({pid: selectionPos.startRow, idx: selectionPos.startCol}, 1)">
-                {{ t('tableOptions.addLeft') }}
             </div>
             <div class="_fd-table-context-menuitem"
                  @click.stop="addCol({pid: selectionPos.startRow, idx: selectionPos.endCol}, 0)">
-                {{ t('tableOptions.addRight') }}
             </div>
             <div class="_fd-table-context-menuitem"
                  @click.stop="addRow({pid: selectionPos.startRow, idx: selectionPos.startCol}, 1)">
-                {{ t('tableOptions.addTop') }}
             </div>
             <div class="_fd-table-context-menuitem"
                  @click.stop="addRow({pid: selectionPos.startRow, idx: selectionPos.endCol}, 0)">
-                {{ t('tableOptions.addBottom') }}
             </div>
             <div class="_fd-table-context-menu-separator"></div>
             <div class="_fd-table-context-menuitem" @click.stop="rmSelectionRow">{{
@@ -142,6 +90,7 @@ import DragTool from '../DragTool.vue';
 import DragBox from '../DragBox.vue';
 import {defineComponent} from 'vue';
 import uniqueId from '@form-create/utils/lib/unique';
+import {NDropdown} from 'naive-ui';
 
 
 export default defineComponent({
@@ -166,6 +115,7 @@ export default defineComponent({
     components: {
         DragTool,
         DragBox,
+        NDropdown
     },
     watch: {
         rule: {
@@ -199,7 +149,7 @@ export default defineComponent({
             dragProp: {
                 rule: {
                     props: {
-                        tag: 'el-col',
+                        tag: 'n-grid-item',
                         group: {
                             name: 'default',
                             put: (to, ...args) => {
@@ -242,6 +192,65 @@ export default defineComponent({
         },
     },
     methods: {
+        getDropdownOptions(pid, idx) {
+            return [
+                {
+                    label: this.t('tableOptions.addLeft'),
+                    key: ['addCol', [{pid, idx, data: this.lattice[pid][idx]}, 1]]
+                },
+                {
+                    label: this.t('tableOptions.addRight'),
+                    key: ['addCol', [{pid, idx, data: this.lattice[pid][idx]}, 0]]
+                },
+                {
+                    label: this.t('tableOptions.addTop'),
+                    key: ['addRow', [{pid, idx, data: this.lattice[pid][idx]}, 1]]
+                },
+                {
+                    label: this.t('tableOptions.addBottom'),
+                    key: ['addRow', [{pid, idx, data: this.lattice[pid][idx]}, 0]]
+                },
+                {
+                    type: 'divider'
+                },
+                {
+                    label: this.t('tableOptions.mergeRight'),
+                    key: ['mergeRight', [{pid, idx, data: this.lattice[pid][idx]}]],
+                    disabled: this.lattice[pid][idx].right
+                },
+                {
+                    label: this.t('tableOptions.mergeBottom'),
+                    key: ['mergeBottom', [{pid, idx, data: this.lattice[pid][idx]}]],
+                    disabled: this.lattice[pid][idx].bottom
+                },
+                {
+                    type: 'divider'
+                },
+                {
+                    label: this.t('tableOptions.splitCol'),
+                    key: ['splitCol', [{pid, idx, data: this.lattice[pid][idx]}]],
+                    disabled: !(this.lattice[pid][idx].layout && this.lattice[pid][idx].layout.col > 1)
+                },
+                {
+                    label: this.t('tableOptions.splitRow'),
+                    key: ['splitRow', [{pid, idx, data: this.lattice[pid][idx]}]],
+                    disabled: !(this.lattice[pid][idx].layout && this.lattice[pid][idx].layout.row > 1)
+                },
+                {
+                    type: 'divider'
+                },
+                {
+                    label: this.t('tableOptions.rmCol'),
+                    key: ['rmCol', [{pid, idx, data: this.lattice[pid][idx]}]],
+                    disabled: this.rule.col < 2
+                },
+                {
+                    label: this.t('tableOptions.rmRow'),
+                    key: ['rmRow', [{pid, idx, data: this.lattice[pid][idx]}]],
+                    disabled: this.rule.row < 2
+                }
+            ];
+        },
         contextmenu(e) {
             e.preventDefault();
             e.stopPropagation();

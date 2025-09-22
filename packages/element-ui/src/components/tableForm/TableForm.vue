@@ -5,18 +5,22 @@
                    @change="formChange"
                    v-model:api="fapi"
                    @emit-event="$emit"></component>
-        <el-button link type="primary" class="fc-clock" v-if="addable && (!max || max > this.trs.length)"
-                   @click="addRaw(true)"><i class="fc-icon icon-add-circle" style="font-weight: 700;"></i>
+        <n-button text type="primary" class="fc-clock" v-if="addable && (!max || max > this.trs.length)"
+                  @click="addRaw(true)"><i class="fc-icon icon-add-circle" style="font-weight: 700;"></i>
             {{ formCreateInject.t('add') || '添加' }}
-        </el-button>
+        </n-button>
     </div>
 </template>
 
 <script>
 import {markRaw, reactive} from 'vue';
+import {NButton} from 'naive-ui';
 
 export default {
     name: 'TableForm',
+    components: {
+        NButton
+    },
     emits: ['change', 'add', 'delete', 'update:modelValue'],
     props: {
         formCreateInject: Object,
@@ -337,7 +341,7 @@ export default {
     cursor: pointer;
 }
 
-._fc-table-form._fc-disabled ._fc-tf-btn .fc-icon, ._fc-table-form._fc-disabled > .el-button {
+._fc-table-form._fc-disabled ._fc-tf-btn .fc-icon, ._fc-table-form._fc-disabled > .n-button {
     cursor: not-allowed;
 }
 
@@ -389,7 +393,7 @@ export default {
     border-left: 1px solid #EBEEF5;
 }
 
-._fc-tf-table .el-input-number, ._fc-tf-table .el-select, ._fc-tf-table .el-slider, ._fc-tf-table .el-cascader, ._fc-tf-table .el-date-editor {
+._fc-tf-table .n-input-number, ._fc-tf-table .n-select, ._fc-tf-table .el-slider, ._fc-tf-table .el-cascader, ._fc-tf-table .el-date-editor {
     width: 100%;
 }
 

@@ -2,7 +2,7 @@ import uniqueId from '@form-create/utils/lib/unique';
 import {localeProps, makeTreeOptions, makeTreeOptionsRule} from '../../utils/index';
 
 const label = '树形选择';
-const name = 'elTreeSelect';
+const name = 'TreeSelect';
 
 export default {
     menu: 'main',
@@ -16,7 +16,7 @@ export default {
         return {
             type: name,
             field: uniqueId(),
-            title: t('com.elTreeSelect.name'),
+            title: t('com.TreeSelect.name'),
             info: '',
             effect: {
                 fetch: ''
@@ -44,7 +44,7 @@ export default {
                 type: 'switch',
                 field: 'collapseTags'
             }, {
-                type: 'inputNumber',
+                type: 'InputNumber',
                 field: 'multipleLimit',
                 props: {min: 0}
             }, {type: 'input', field: 'placeholder'},

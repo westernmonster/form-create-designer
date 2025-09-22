@@ -60,7 +60,7 @@ export default {
                 type: 'switch',
                 field: 'checkStrictly'
             }, {type: 'switch', field: 'accordion'}, {
-                type: 'inputNumber',
+                type: 'InputNumber',
                 field: 'indent'
             }, {
                 type: 'input',

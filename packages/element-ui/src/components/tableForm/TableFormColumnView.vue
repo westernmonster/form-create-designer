@@ -40,7 +40,7 @@ export default defineComponent({
 
 <style>
 
-._fd-tf-col ._fd-tf-con .el-form-item {
+._fd-tf-col ._fd-tf-con .n-form-item {
     margin-bottom: 1px !important;
 }
 
@@ -52,7 +52,7 @@ export default defineComponent({
     flex-shrink: 0;
 }
 
-._fd-tf-con .el-form-item__label, ._fd-tf-con .van-field__label {
+._fd-tf-con .n-form-item-label, ._fd-tf-con .van-field__label {
     display: none !important;
 }
 
@@ -62,7 +62,7 @@ export default defineComponent({
     width: 100%;
 }
 
-._fd-tf-con .el-form-item__content {
+._fd-tf-con .n-form-item-blank {
     display: flex;
     margin-left: 0px !important;
     width: 100% !important;
@@ -93,7 +93,7 @@ export default defineComponent({
     display: none !important;
 }
 
-._fd-tf-con .el-input-number, ._fd-tf-con .el-select, ._fd-tf-con .el-slider, ._fd-tf-con .el-cascader, ._fd-tf-con .el-date-editor {
+._fd-tf-con .n-input-number, ._fd-tf-con .n-select, ._fd-tf-con .n-slider, ._fd-tf-con .n-cascader, ._fd-tf-con .n-date-picker {
     width: 100%;
 }
 

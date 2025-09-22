@@ -1,7 +1,7 @@
 import {localeProps} from '../../utils';
 
 const label = '折叠面板';
-const name = 'elCollapse';
+const name = 'Collapse';
 
 export default {
     menu: 'layout',
@@ -9,7 +9,7 @@ export default {
     label,
     name,
     mask: false,
-    children: 'elCollapseItem',
+    children: 'CollapseItem',
     event: ['change'],
     rule() {
         return {

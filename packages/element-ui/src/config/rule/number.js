@@ -2,7 +2,7 @@ import uniqueId from '@form-create/utils/lib/unique';
 import {localeOptions, localeProps} from '../../utils';
 
 const label = '计数器';
-const name = 'inputNumber';
+const name = 'InputNumber';
 
 export default {
     menu: 'main',
@@ -16,7 +16,7 @@ export default {
         return {
             type: name,
             field: uniqueId(),
-            title: t('com.inputNumber.name'),
+            title: t('com.InputNumber.name'),
             info: '',
             $required: false,
             props: {}
@@ -24,16 +24,16 @@ export default {
     },
     props(_, {t}) {
         return localeProps(t, name + '.props', [{type: 'switch', field: 'disabled'}, {
-            type: 'inputNumber',
+            type: 'InputNumber',
             field: 'min'
         }, {
-            type: 'inputNumber',
+            type: 'InputNumber',
             field: 'max',
         },  {
-            type: 'inputNumber',
+            type: 'InputNumber',
             title: 'precision',
             field: 'precision',
-        }, {type: 'inputNumber', field: 'step', props: {min: 0}}, {
+        }, {type: 'InputNumber', field: 'step', props: {min: 0}}, {
             type: 'switch',
             field: 'stepStrictly'
         }, {

@@ -2,7 +2,7 @@ import uniqueId from '@form-create/utils/lib/unique';
 import {localeProps, makeTreeOptions, makeTreeOptionsRule} from '../../utils';
 
 const label = '穿梭框';
-const name = 'elTransfer';
+const name = 'Transfer';
 
 export default {
     menu: 'main',
@@ -16,7 +16,7 @@ export default {
         return {
             type: name,
             field: uniqueId(),
-            title: t('com.elTransfer.name'),
+            title: t('com.Transfer.name'),
             info: '',
             $required: false,
             props: {
@@ -33,7 +33,7 @@ export default {
             }, {
                 type: 'select',
                 field: 'targetOrder',
-                warning: t('com.elTransfer.props.targetOrderInfo'),
+                warning: t('com.Transfer.props.targetOrderInfo'),
                 options: [{label: 'original', value: 'original'}, {
                     label: 'push',
                     value: 'push'

@@ -82,12 +82,12 @@ export default {
                 value: true,
             },
             {
-                type: 'inputNumber',
+                type: 'InputNumber',
                 field: 'min',
                 props: {min: 0}
             },
             {
-                type: 'inputNumber',
+                type: 'InputNumber',
                 field: 'max',
                 props: {min: 0}
             },

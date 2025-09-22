@@ -54,6 +54,7 @@ const ZhCn = {
         typePlaceholder: '请选择',
         trigger: '触发方式',
         mode: '验证方式',
+        add: '添加验证',
         modes: {
             required: '必填',
             pattern: '正则表达式',
@@ -451,7 +452,7 @@ const ZhCn = {
         timeRange: {
             name: '时间区间',
         },
-        elAlert: {
+        Alert: {
             name: '提示',
             description: '说明文字',
             props: {
@@ -465,7 +466,7 @@ const ZhCn = {
                 effect: '选择提供的主题'
             }
         },
-        elButton: {
+        Button: {
             name: '按钮',
             props: {
                 formCreateChild: '内容',
@@ -478,14 +479,14 @@ const ZhCn = {
                 disabled: '是否禁用状态',
             }
         },
-        elCard: {
+        Card: {
             name: '卡片',
             props: {
                 header: '标题',
                 shadow: '阴影显示时机',
             }
         },
-        elCollapse: {
+        Collapse: {
             name: '折叠面板',
             event: {
                 change: '切换当前活动面板，在手风琴模式下其类型是string，在其他模式下是array',
@@ -494,7 +495,7 @@ const ZhCn = {
                 accordion: '是否手风琴模式'
             }
         },
-        elCollapseItem: {
+        CollapseItem: {
             name: '面板',
             props: {
                 title: '面板标题',
@@ -502,14 +503,14 @@ const ZhCn = {
                 disabled: '是否禁用',
             }
         },
-        elDivider: {
+        Divider: {
             name: '分割线',
             props: {
                 formCreateChild: '设置分割线文案',
                 contentPosition: '设置分割线文案的位置'
             }
         },
-        elTabPane: {
+        TabPane: {
             name: '选项卡',
             props: {
                 label: '选项卡标题',
@@ -518,7 +519,7 @@ const ZhCn = {
                 lazy: '标签是否延迟渲染'
             }
         },
-        elTabs: {
+        Tabs: {
             name: '标签页',
             event: {
                 tabClick: 'tab 被选中时触发',
@@ -534,7 +535,7 @@ const ZhCn = {
                 stretch: '标签的宽度是否自撑开'
             }
         },
-        elTag: {
+        Tag: {
             name: '标签',
             props: {
                 formCreateNative: '是否显示标题',
@@ -550,7 +551,7 @@ const ZhCn = {
                 color: '背景色'
             }
         },
-        elTransfer: {
+        Transfer: {
             name: '穿梭框',
             event: {
                 leftCheckChange: '左侧列表元素被用户选中 / 取消选中时触发',
@@ -566,7 +567,7 @@ const ZhCn = {
                 props: '数据源的字段别名'
             }
         },
-        elTreeSelect: {
+        TreeSelect: {
             name: '树形选择',
             event: {
                 removeTag: '多选模式下移除tag时触发'
@@ -586,7 +587,7 @@ const ZhCn = {
                 nodeKey: '每个树节点用来作为唯一标识的属性，整棵树应该是唯一的'
             }
         },
-        elImage: {
+        Image: {
             name: '图片',
             props: {
                 src: '图片链接'
@@ -669,6 +670,20 @@ const ZhCn = {
             }
         },
         inputNumber: {
+            name: '计数器',
+            props: {
+                precision: '数值精度',
+                min: '设置计数器允许的最小值',
+                max: '设置计数器允许的最大值',
+                step: '计数器步长',
+                stepStrictly: '是否只能输入 step 的倍数',
+                disabled: '是否禁用计数器',
+                controls: '是否使用控制按钮',
+                controlsPosition: '控制按钮位置',
+                placeholder: '输入框占位文本'
+            }
+        },
+        InputNumber: {
             name: '计数器',
             props: {
                 precision: '数值精度',

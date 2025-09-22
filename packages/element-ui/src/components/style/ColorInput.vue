@@ -1,18 +1,23 @@
 <template>
     <div class="_fd-color-input">
-        <el-input clearable v-model="value">
-            <template #append>
-                <el-color-picker show-alpha color-format="hex" :predefine="predefine" v-model="value"/>
+        <n-input clearable v-model:value="value">
+            <template #suffix>
+                <n-color-picker show-alpha :modes="['hex']" :swatches="predefine" v-model:value="value"/>
             </template>
-        </el-input>
+        </n-input>
     </div>
 </template>
 
 <script>
 import {defineComponent} from 'vue';
+import {NInput, NColorPicker} from 'naive-ui';
 
 export default defineComponent({
     name: 'ColorInput',
+    components: {
+        NInput,
+        NColorPicker
+    },
     inject: ['designer'],
     emits: ['update:modelValue', 'change'],
     props: {
@@ -74,16 +79,16 @@ export default defineComponent({
     width: 150px;
 }
 
-._fd-color-input .el-input .el-color-picker {
+._fd-color-input .n-input .n-color-picker {
     margin: 0;
 }
 
-._fd-color-input .el-input .el-input-group__append {
+._fd-color-input .n-input .n-input__suffix {
     padding: 0;
     width: 24px;
 }
 
-._fd-color-input .el-input .el-color-picker__trigger {
+._fd-color-input .n-input .n-color-picker__trigger {
     border-left: 0 none;
     border-radius: 0px 3px 3px 0px;
 }

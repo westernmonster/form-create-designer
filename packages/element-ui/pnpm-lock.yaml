@@ -11,7 +11,7 @@ importers:
       '@form-create/component-wangeditor':
         specifier: ^3.1
         version: 3.2.4
-      '@form-create/element-ui':
+      '@form-create/naive-ui':
         specifier: ^3.2.19
         version: 3.2.19(vue@3.5.11)
       '@form-create/utils':
@@ -727,7 +727,7 @@ packages:
     peerDependencies:
       vue: ^3.1.0
 
-  '@form-create/element-ui@3.2.19':
+  '@form-create/naive-ui@3.2.19':
     resolution: {integrity: sha512-eUuyuicrVjdudrhvU7Ri6sK1VNHImapuYW1k7g9AXZCiMNmqjzoA7W82W1nZoZj5LoAwmPay34oj9N6PhYUilg==}
     peerDependencies:
       vue: ^3.1.0
@@ -6759,7 +6759,7 @@ snapshots:
       '@form-create/utils': 3.2.18
       vue: 3.5.11
 
-  '@form-create/element-ui@3.2.19(vue@3.5.11)':
+  '@form-create/naive-ui@3.2.19(vue@3.5.11)':
     dependencies:
       '@form-create/component-elm-checkbox': 3.2.18
       '@form-create/component-elm-frame': 3.2.18

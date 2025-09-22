@@ -45,9 +45,9 @@ export default {
         }, {type: 'switch', field: 'syncDisabled', value: true},
         {type: 'switch', field: 'button', value: true},
         {type: 'switch', field: 'sortBtn', value: true},
-        {type: 'inputNumber', field: 'expand'},
-        {type: 'inputNumber', field: 'min'},
-        {type: 'inputNumber', field: 'max'},
+        {type: 'InputNumber', field: 'expand'},
+        {type: 'InputNumber', field: 'min'},
+        {type: 'InputNumber', field: 'max'},
         ]);
     }
 };

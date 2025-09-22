@@ -1,16 +1,7 @@
 <template>
     <div class="_fd-pos-input">
         <ConfigItem :label="t('style.position.name')">
-            <el-select v-model="style.position" clearable @change="onInput">
-                <el-option
-                    v-for="item in positionType"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                >
-                    {{ item.label }}
-                </el-option>
-            </el-select>
+            <n-select v-model:value="style.position" clearable @update:value="onInput" :options="positionType"/>
             <template #append>
                 <div class="_fd-pos-con">
                     <div class="_fd-pos-item">
@@ -47,10 +38,11 @@
 import {defineComponent} from 'vue';
 import SizeInput from './SizeInput.vue';
 import ConfigItem from './ConfigItem.vue';
+import {NSelect} from 'naive-ui';
 
 export default defineComponent({
     name: 'PositionInput',
-    components: {ConfigItem, SizeInput},
+    components: {ConfigItem, SizeInput, NSelect},
     inject: ['designer'],
     emits: ['update:modelValue', 'change'],
     props: {
@@ -140,7 +132,7 @@ export default defineComponent({
     align-items: center;
 }
 
-._fd-pos-item ._fd-size-input .el-input-number--small {
+._fd-pos-item ._fd-size-input .n-input-number {
     width: 70px;
 }
 </style>

@@ -71,14 +71,17 @@ export default defineConfig({
                 '@form-create/vant'
             ],
 
-        },
-        brotliSize: true
+        }
     },
     css: {
         postcss: {
             plugins: [
                 cssnano({
-                    preset: 'advanced'
+                    preset: ['advanced', {
+                        discardComments: {
+                            removeAll: true
+                        }
+                    }]
                 })
             ]
         }

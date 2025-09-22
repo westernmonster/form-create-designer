@@ -1,54 +1,32 @@
 <template>
     <div class="_fd-language-config">
-        <div class="_fc-l-label">{{ t('language.name') }}</div>
         <div class="_fc-l-info">
-            {{ t('warning.language') }}
         </div>
         <div class="_fd-lc-header">
-            <el-button size="small" @click="addColumn">{{ t('language.add') }}</el-button>
-            <el-button size="small" type="danger" plain :disabled="!selected.length" @click="batchRmColumn">
-                {{ t('language.batchRemove') }}
-            </el-button>
+            <n-button size="small" type="error" ghost :disabled="!selected.length" @click="batchRmColumn">
+            </n-button>
         </div>
         <div class="_fd-lc-body">
-            <el-table :data="column" size="small" ref="table"
-                      @selection-change="selectionChange" row-key="key">
-                <el-table-column type="selection" width="30px"></el-table-column>
-                <el-table-column prop="key" label="Key" width="90px"></el-table-column>
-                <template v-for="item in localeOptions" :key="item.value">
-                    <el-table-column :prop="item.value" :label="item.label" min-width="100px">
-                        <template #default="scope">
-                            <template v-if="scope.row.input">
-                                <el-input size="small" v-model="scope.row[item.value]" @blur="saveColumn(scope.row, true)"></el-input>
-                            </template>
-                            <template v-else>
-                                {{ scope.row[item.value] || '-' }}
-                            </template>
-                        </template>
-                    </el-table-column>
-                </template>
-                <el-table-column width="75px" :label="t('tableOptions.handle')" fixed="right">
-                    <template #default="scope">
-                        <div class="_fd-lc-handle">
-                            <i class="fc-icon icon-edit" v-if="!scope.row.input" @click="scope.row.input = true"></i>
-                            <i class="fc-icon icon-check" v-else @click="saveColumn(scope.row)"></i>
-                            <i class="fc-icon icon-group" @click="copy(scope.row.key)"></i>
-                            <i class="fc-icon icon-delete-circle" @click="rmColumn(scope.$index)"></i>
-                        </div>
-                    </template>
-                </el-table-column>
-            </el-table>
+            <n-data-table :data="column" size="small" ref="table" :columns="tableColumns"
+                          @update:checked-row-keys="selectionChange" :row-key="(row) => row.key">
+            </n-data-table>
         </div>
     </div>
 
 </template>
 
 <script>
-import {defineComponent} from 'vue';
+import {defineComponent, h} from 'vue';
 import {copyTextToClipboard} from '../../utils';
+import {NButton, NDataTable, NInput} from 'naive-ui';
 
 export default defineComponent({
     name: 'LanguageConfig',
+    components: {
+        NButton,
+        NDataTable,
+        NInput
+    },
     inject: ['designer'],
     computed: {
         localeOptions() {
@@ -59,6 +37,69 @@ export default defineComponent({
         },
         t() {
             return this.designer.setupState.t;
+        },
+        tableColumns() {
+            const columns = [
+                {
+                    type: 'selection',
+                    width: 30
+                },
+                {
+                    title: 'Key',
+                    key: 'key',
+                    width: 90
+                }
+            ];
+
+            this.localeOptions.forEach(item => {
+                columns.push({
+                    title: item.label,
+                    key: item.value,
+                    minWidth: 100,
+                    render: (row) => {
+                        if (row.input) {
+                            return h(NInput, {
+                                size: 'small',
+                                value: row[item.value],
+                                'onUpdate:value': (val) => {
+                                    row[item.value] = val;
+                                },
+                                onBlur: () => this.saveColumn(row, true)
+                            });
+                        } else {
+                            return row[item.value] || '-';
+                        }
+                    }
+                });
+            });
+
+            columns.push({
+                title: this.t('tableOptions.handle'),
+                key: 'actions',
+                width: 75,
+                fixed: 'right',
+                render: (row, index) => {
+                    return h('div', { class: '_fd-lc-handle' }, [
+                        !row.input ? h('i', {
+                            class: 'fc-icon icon-edit',
+                            onClick: () => { row.input = true; }
+                        }) : h('i', {
+                            class: 'fc-icon icon-check',
+                            onClick: () => this.saveColumn(row)
+                        }),
+                        h('i', {
+                            class: 'fc-icon icon-group',
+                            onClick: () => this.copy(row.key)
+                        }),
+                        h('i', {
+                            class: 'fc-icon icon-delete-circle',
+                            onClick: () => this.rmColumn(index)
+                        })
+                    ]);
+                }
+            });
+
+            return columns;
         },
     },
     data() {
@@ -104,8 +145,8 @@ export default defineComponent({
             });
             this.selected = [];
         },
-        selectionChange(list) {
-            this.selected = list;
+        selectionChange(keys) {
+            this.selected = this.column.filter(item => keys.includes(item.key));
         },
         randomString() {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -157,7 +198,7 @@ export default defineComponent({
     margin-bottom: 12px;
 }
 
-._fd-language-config .el-table__cell {
+._fd-language-config .n-data-table .n-data-table-td {
     height: 34px;
 }
 

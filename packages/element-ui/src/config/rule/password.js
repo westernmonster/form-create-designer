@@ -35,7 +35,7 @@ export default {
                 field: 'readonly'
             },
             {
-                type: 'inputNumber',
+                type: 'InputNumber',
                 field: 'maxlength',
                 props: {min: 0}
             },

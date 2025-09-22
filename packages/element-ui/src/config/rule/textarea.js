@@ -35,7 +35,7 @@ export default {
                 field: 'readonly'
             },
             {
-                type: 'inputNumber',
+                type: 'InputNumber',
                 field: 'maxlength',
                 props: {min: 0}
             },
@@ -48,7 +48,7 @@ export default {
                 field: 'placeholder'
             },
             {
-                type: 'inputNumber',
+                type: 'InputNumber',
                 field: 'rows',
                 props: {
                     min: 0

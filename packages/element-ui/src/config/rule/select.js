@@ -41,7 +41,7 @@ export default {
                 type: 'switch',
                 field: 'collapseTags'
             }, {
-                type: 'inputNumber',
+                type: 'InputNumber',
                 field: 'multipleLimit',
                 props: {min: 0}
             }, {type: 'input', field: 'placeholder'}, {

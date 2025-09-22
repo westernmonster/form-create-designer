@@ -11,30 +11,35 @@
                 <i class="fc-icon icon-edit2"></i> {{ formCreateInject.t('signaturePadTip') || '点击添加手写签名' }}
             </div>
         </template>
-        <el-dialog class="_fc-signature-dialog" :title="formCreateInject.t('signaturePadTitle') || '请在虚线框内书写'"
-                   v-model="visible"
-                   destroy-on-close
-                   :close-on-click-modal="false"
-                   append-to-body width="640px">
-            <canvas class="_fc-signature-pad" ref="pad" width="600px" height="270px"></canvas>
-            <template #footer>
+        <n-modal class="_fc-signature-dialog" :title="formCreateInject.t('signaturePadTitle') || '请在虚线框内书写'"
+                 v-model:show="visible"
+                 :mask-closable="false"
+                 preset="dialog"
+                 style="width: 640px">
+            <canvas class="_fc-signature-pad" ref="pad"  height="270px"></canvas>
+            <template #action>
                 <div>
-                    <el-button size="default" @click="clear()">{{ formCreateInject.t('reset') || '重置' }}</el-button>
-                    <el-button type="primary" :disabled="isEmpty" @click="submit" size="default">
+                    <n-button size="medium" @click="clear()">{{ formCreateInject.t('reset') || '重置' }}</n-button>
+                    <n-button type="primary" :disabled="isEmpty" @click="submit" size="medium">
                         {{ formCreateInject.t('ok') || '确定' }}
-                    </el-button>
+                    </n-button>
                 </div>
             </template>
-        </el-dialog>
+        </n-modal>
     </div>
 </template>
 
 <script>
 import {defineComponent, markRaw} from 'vue';
 import SignaturePad from 'signature_pad';
+import {NModal, NButton} from 'naive-ui';
 
 export default defineComponent({
     name: 'SignaturePad',
+    components: {
+        NModal,
+        NButton
+    },
     emits: ['update:modelValue', 'change', 'remove'],
     data() {
         return {
@@ -146,7 +151,7 @@ export default defineComponent({
     font-size: 14px;
 }
 
-._fc-signature-dialog .el-dialog__body {
+._fc-signature-dialog .n-modal-body {
     text-align: center;
 }
 

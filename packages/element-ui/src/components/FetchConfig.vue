@@ -1,19 +1,17 @@
 <template>
     <div class="_fd-gfc">
-        <el-badge type="warning" is-dot :hidden="!configured">
-            <el-button @click="visible=true" size="small">{{ t('struct.title') }}</el-button>
-        </el-badge>
-        <el-dialog class="_fd-gfc-dialog" v-model="visible" destroy-on-close
-                   :close-on-click-modal="false"
-                   append-to-body
-                   width="1080px">
+        <n-badge type="warning" dot :show="configured">
+        </n-badge>
+        <n-modal class="_fd-gfc-dialog" v-model:show="visible"
+                 :mask-closable="false"
+                 preset="dialog"
+                 style="width: 1080px">
             <template #header>
-                {{ t('fetch.optionsType.fetch') }}
                 <Warning :tooltip="t('warning.fetch')"></Warning>
             </template>
-            <el-container class="_fd-gfc-con" style="height: 450px;">
-                <el-tabs model-value="first" class="_fc-tabs" style="width: 100%">
-                    <el-tab-pane :label="t('fetch.config')" name="first">
+            <n-layout class="_fd-gfc-con" style="height: 450px;">
+                <n-tabs default-value="first" class="_fc-tabs" style="width: 100%">
+                    <n-tab-pane :tab="t('fetch.config')" name="first">
                         <DragForm v-model:api="form.api" v-model="form.formData" :rule="form.rule"
                                   :option="form.options">
                             <template #title="scope">
@@ -27,42 +25,39 @@
                                 </template>
                             </template>
                         </DragForm>
-                    </el-tab-pane>
-                    <el-tab-pane lazy :label="t('fetch.beforeFetch')" name="second">
-                        <template #label>
-                            {{ t('fetch.beforeFetch') }}
+                    </n-tab-pane>
+                    <n-tab-pane name="second">
+                        <template #tab>
                             <Warning :tooltip="t('warning.beforeFetch')"></Warning>
                         </template>
                         <FnEditor style="height: 415px;" v-model="form.beforeFetch" name="beforeFetch"
                                   :args="['config', 'data']"
                                   ref="beforeFetch"></FnEditor>
-                    </el-tab-pane>
-                    <el-tab-pane lazy name="third">
-                        <template #label>
-                            {{ t('fetch.parse') }}
+                    </n-tab-pane>
+                    <n-tab-pane name="third">
+                        <template #tab>
                             <Warning :tooltip="t('warning.fetchParse')"></Warning>
                         </template>
                         <FnEditor style="height: 415px;" v-model="form.parse" name="parse"
                                   :args="[{name:'res', info: t('fetch.response')}, 'rule', 'api']"
                                   ref="parse"></FnEditor>
-                    </el-tab-pane>
-                    <el-tab-pane lazy :label="t('fetch.onError')" name="fourth">
+                    </n-tab-pane>
+                    <n-tab-pane :tab="t('fetch.onError')" name="fourth">
                         <FnEditor style="height: 415px;" v-model="form.onError" name="onError"
                                   :args="['e']"
                                   ref="error"></FnEditor>
-                    </el-tab-pane>
-                </el-tabs>
-            </el-container>
-            <template #footer>
+                    </n-tab-pane>
+                </n-tabs>
+            </n-layout>
+            <template #action>
                 <div>
-                    <el-button size="default" @click="visible=false">{{ t('props.cancel') }}</el-button>
-                    <el-button type="primary" size="default" @click="save" color="#2f73ff">{{
+                    <n-button type="primary" size="medium" @click="save" style="color: #2f73ff">{{
                             t('props.ok')
                         }}
-                    </el-button>
+                    </n-button>
                 </div>
             </template>
-        </el-dialog>
+        </n-modal>
     </div>
 </template>
 
@@ -75,6 +70,7 @@ import {designerForm} from '../utils/form';
 import errorMessage from '../utils/message';
 import is from '@form-create/utils/lib/type';
 import Warning from './Warning.vue';
+import {NBadge, NButton, NModal, NLayout, NTabs, NTabPane} from 'naive-ui';
 
 const makeRule = (t) => {
     return [
@@ -163,7 +159,13 @@ export default defineComponent({
         Warning,
         DragForm: designerForm.$form(),
         FnEditor,
-        StructEditor
+        StructEditor,
+        NBadge,
+        NButton,
+        NModal,
+        NLayout,
+        NTabs,
+        NTabPane
     },
     inject: ['designer'],
     data() {
@@ -244,18 +246,18 @@ export default defineComponent({
 </script>
 
 <style>
-._fd-gfc, ._fd-gfc .el-badge {
+._fd-gfc, ._fd-gfc .n-badge {
     width: 100%;
 }
 
-._fd-gfc .el-button {
+._fd-gfc .n-button {
     font-weight: 400;
     width: 100%;
     border-color: #2E73FF;
     color: #2E73FF;
 }
 
-._fd-gfc-dialog .el-tabs__header {
+._fd-gfc-dialog .n-tabs .n-tabs-nav {
     margin-bottom: 0;
 }
 

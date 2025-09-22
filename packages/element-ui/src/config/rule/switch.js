@@ -29,7 +29,7 @@ export default {
             type: 'switch',
             field: 'disabled'
         }, {
-            type: 'inputNumber',
+            type: 'InputNumber',
             field: 'width',
             props: {min: 0},
         }, {type: 'input', field: 'activeText'}, {

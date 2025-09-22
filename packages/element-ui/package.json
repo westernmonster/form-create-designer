@@ -50,20 +50,25 @@
     },
     "homepage": "https://form-create.com",
     "devDependencies": {
+        "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
+        "@babel/plugin-proposal-optional-chaining": "^7.21.0",
+        "@babel/plugin-transform-nullish-coalescing-operator": "^7.27.1",
+        "@babel/plugin-transform-optional-chaining": "^7.27.1",
         "@element-plus/icons-vue": "^0.2.6",
-        "@vitejs/plugin-vue": "^3.1.2",
-        "@vitejs/plugin-vue-jsx": "^2.0.1",
+        "@vitejs/plugin-vue": "^6.0.1",
+        "@vitejs/plugin-vue-jsx": "^5.1.1",
         "@vue/babel-plugin-jsx": "^1.0.7",
         "@vue/cli-plugin-babel": "^4.5.13",
         "@vue/cli-service": "^4.5.3",
         "@vue/compiler-sfc": "^3.0.11",
         "babel-eslint": "^10.1.0",
+        "babel-loader": "^8.4.1",
         "gulp": "^4.0.2",
         "html-webpack-plugin": "^4.3.0",
         "jsonlint-mod": "^1.7.6",
         "lint-staged": "^10.2.11",
         "rimraf": "^3.0.2",
-        "vite": "^3.1.4"
+        "vite": "^7.1.6"
     },
     "husky": {
         "hooks": {
@@ -81,11 +86,12 @@
     },
     "dependencies": {
         "@form-create/component-wangeditor": "^3.2.14",
-        "@form-create/element-ui": "^3.2.30",
+        "@form-create/naive-ui": "^3.2.31",
         "@form-create/utils": "^3.2.23",
+        "@vicons/ionicons5": "^0.13.0",
         "codemirror": "^6.65.7",
-        "element-plus": "^2.11.1",
         "js-beautify": "^1.15.1",
+        "naive-ui": "^2.43.1",
         "signature_pad": "^5.0.10",
         "vuedraggable": "4.1.0"
     }

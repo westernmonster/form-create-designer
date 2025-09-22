@@ -1,7 +1,7 @@
 import {localeOptions, localeProps} from '../../utils';
 
 const label = '标签';
-const name = 'elTag';
+const name = 'Tag';
 
 export default {
     menu: 'aide',
@@ -15,7 +15,7 @@ export default {
             type: name,
             title: '',
             native: true,
-            children: [t('com.elTag.name')]
+            children: [t('com.Tag.name')]
         };
     },
     watch: {

@@ -1,6 +1,6 @@
 <template>
     <div class="_fd-required">
-        <el-switch v-model="required"></el-switch>
+        <n-switch v-model:value="required"></n-switch>
         <LanguageInput v-model="requiredMsg" v-if="required"
                        :placeholder="t('validate.requiredPlaceholder')"></LanguageInput>
     </div>
@@ -10,10 +10,14 @@
 import is from '@form-create/utils/lib/type';
 import {defineComponent} from 'vue';
 import LanguageInput from './language/LanguageInput.vue';
+import {NSwitch} from 'naive-ui';
 
 export default defineComponent({
     name: 'Required',
-    components: {LanguageInput},
+    components: {
+        LanguageInput,
+        NSwitch
+    },
     emits: ['update:modelValue'],
     props: {
         modelValue: {}
@@ -65,11 +69,11 @@ export default defineComponent({
     width: 100%;
 }
 
-._fd-required .el-input {
+._fd-required .n-input {
     margin-left: 15px;
 }
 
-._fd-required .el-switch {
+._fd-required .n-switch {
     height: 28px;
 }
 </style>

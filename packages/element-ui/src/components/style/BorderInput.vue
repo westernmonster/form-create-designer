@@ -25,18 +25,13 @@
                     </div>
                 </div>
                 <div class="_fd-bi-right">
-                    <el-select v-model="curStyle" clearable>
-                        <el-option
-                            v-for="item in lineType"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                        >
+                    <n-select v-model:value="curStyle" clearable :options="lineTypeOptions">
+                        <template #option="{ node, option }">
                             <div class="_fd-bi-opt">
-                                <div class="_line" :class="item.value"></div>
+                                <div class="_line" :class="option.value"></div>
                             </div>
-                        </el-option>
-                    </el-select>
+                        </template>
+                    </n-select>
                     <SizeInput v-model="curWidth"/>
                     <ColorInput v-model="curColor"/>
                 </div>
@@ -51,10 +46,11 @@ import SizeInput from './SizeInput.vue';
 import ColorInput from './ColorInput.vue';
 import ConfigItem from './ConfigItem.vue';
 import {toLine} from '@form-create/utils';
+import {NSelect} from 'naive-ui';
 
 export default defineComponent({
     name: 'BorderInput',
-    components: {ColorInput, SizeInput, ConfigItem},
+    components: {ColorInput, SizeInput, ConfigItem, NSelect},
     inject: ['designer'],
     emits: ['update:modelValue', 'change'],
     props: {
@@ -81,6 +77,13 @@ export default defineComponent({
                 }
             }, {})
             return str;
+        },
+        lineTypeOptions() {
+            return this.lineType.map(item => ({
+                label: item.label,
+                value: item.value,
+                ...item
+            }));
         },
     },
     data() {

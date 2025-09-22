@@ -1,23 +1,34 @@
 <template>
-    <el-input class="_fd-value-input" :disabled="disabled" v-model="value" @blur="onBlur" v-bind="$attrs">
-        <template #prepend>
-            <el-select v-model="type" style="width: 60px" :disabled="disabled">
-                <el-option :label="t('validate.types.string')" value="1"/>
-                <el-option :label="t('validate.types.number')" value="2"/>
-                <el-option :label="t('validate.types.boolean')" value="3"/>
-            </el-select>
-        </template>
-        <template #append v-if="$slots.append">
+    <n-input-group class="_fd-value-input">
+        <n-select
+            v-model:value="type"
+            :options="typeOptions"
+            style="width: 80px"
+            :disabled="disabled"
+        />
+        <n-input
+            :disabled="disabled"
+            v-model:value="value"
+            @blur="onBlur"
+            v-bind="$attrs"
+        />
+        <template v-if="$slots.append">
             <slot name="append"></slot>
         </template>
-    </el-input>
+    </n-input-group>
 </template>
 
 <script>
 import {defineComponent} from 'vue';
+import {NInputGroup, NInput, NSelect} from 'naive-ui';
 
 export default defineComponent({
     name: 'ValueInput',
+    components: {
+        NInputGroup,
+        NInput,
+        NSelect
+    },
     emits: ['update:modelValue', 'change', 'change-type', 'blur'],
     inject: ['designer'],
     props: {
@@ -33,6 +44,13 @@ export default defineComponent({
     computed: {
         t() {
             return this.designer.setupState.t;
+        },
+        typeOptions() {
+            return [
+                { label: this.t('validate.types.string'), value: '1' },
+                { label: this.t('validate.types.number'), value: '2' },
+                { label: this.t('validate.types.boolean'), value: '3' }
+            ];
         }
     },
     watch: {
@@ -79,11 +97,11 @@ export default defineComponent({
 </script>
 
 <style>
-._fd-value-input .el-input__validateIcon {
-    display: none;
+._fd-value-input .n-input-group > .n-select {
+    flex-shrink: 0;
 }
 
-._fd-value-input .el-select, ._fd-value-input .el-select__wrapper {
-    height: 100%;
+._fd-value-input .n-input-group > .n-input {
+    flex-grow: 1;
 }
 </style>

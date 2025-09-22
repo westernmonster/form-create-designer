@@ -15,13 +15,34 @@ module.exports = {
         }
     },
     configureWebpack: {
+        resolve: {
+            alias: {
+                'naive-ui': require.resolve('naive-ui/es/index.mjs')
+            }
+        },
         module: {
             rules: [
                 {
                     test: /\.mjs$/,
                     include: /node_modules/,
-                    type: 'javascript/auto'
-                },
+                    type: 'javascript/auto',
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                ['@babel/preset-env', {
+                                    targets: {
+                                        esmodules: true
+                                    }
+                                }]
+                            ],
+                            plugins: [
+                                '@babel/plugin-transform-optional-chaining',
+                                '@babel/plugin-transform-nullish-coalescing-operator'
+                            ]
+                        }
+                    }
+                }
             ]
         }
     }

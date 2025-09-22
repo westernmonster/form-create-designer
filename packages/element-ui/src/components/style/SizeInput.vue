@@ -1,20 +1,15 @@
 <template>
     <div class="_fd-size-input">
         <template v-if="unit[idx] === 'auto'">
-            <el-button :size="size" style="width: 150px;" @click="changeType()">{{ unit[idx] }}</el-button>
+            <n-button :size="size" style="width: 150px;" @click="changeType()">{{ unit[idx] }}</n-button>
         </template>
         <template v-else>
-            <el-inputNumber :size="size" v-model="num" @change="submit" controls-position="right"/>
-            <el-dropdown trigger="click" size="small">
-                <el-button :size="size">{{ unit[idx] }}</el-button>
-                <template #dropdown>
-                    <el-dropdown-menu>
-                        <el-dropdown-item v-for="(name, idx) in unit" :key="name" @click="changeType(idx)">
-                            <div>{{ name }}</div>
-                        </el-dropdown-item>
-                    </el-dropdown-menu>
-                </template>
-            </el-dropdown>
+            <div style="display: flex; align-items: center; gap: 4px;">
+                <n-input-number :size="size" v-model:value="num" @update:value="submit" button-placement="right"/>
+                <n-dropdown :options="dropdownOptions" @select="changeType" trigger="click" :size="size">
+                    <n-button :size="size">{{ unit[idx] }}</n-button>
+                </n-dropdown>
+            </div>
         </template>
     </div>
 </template>
@@ -22,9 +17,11 @@
 <script>
 import {defineComponent} from 'vue';
 import {isNull} from '../../utils/index';
+import {NButton, NInputNumber, NDropdown} from 'naive-ui';
 
 export default defineComponent({
     name: 'SizeInput',
+    components: {NButton, NInputNumber, NDropdown},
     inject: ['designer'],
     emits: ['update:modelValue', 'change'],
     props: {
@@ -42,6 +39,14 @@ export default defineComponent({
     watch: {
         modelValue() {
             this.parseValue();
+        }
+    },
+    computed: {
+        dropdownOptions() {
+            return this.unit.map((name, idx) => ({
+                label: name,
+                key: idx
+            }));
         }
     },
     data() {
@@ -105,11 +110,11 @@ export default defineComponent({
     align-items: center;
 }
 
-._fd-size-input .el-input-number--small {
+._fd-size-input .n-input-number {
     width: 122px;
 }
 
-._fd-size-input .el-button {
+._fd-size-input .n-button {
     font-size: 12px;
     padding: 5px;
     margin-left: 3px;

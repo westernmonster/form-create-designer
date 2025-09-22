@@ -24,7 +24,7 @@ export default {
     },
     props(_, {t}) {
         return localeProps(t, name + '.props', [
-            {type: 'inputNumber', field: 'max', props: {min: 0}}, {
+            {type: 'InputNumber', field: 'max', props: {min: 0}}, {
                 type: 'switch',
                 field: 'disabled'
             }, {type: 'switch', field: 'allowHalf'}, {

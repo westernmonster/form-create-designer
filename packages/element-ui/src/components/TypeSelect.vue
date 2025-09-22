@@ -1,33 +1,42 @@
 <template>
-    <el-dropdown class="_fd-type-select" trigger="click" size="default" popper-class="_fd-type-select-pop"
-                 :disabled="disabled || !menus.length" @command="handleCommand">
-        <el-tag type="success" effect="plain" disable-transitions>
-            <template v-if="activeRule">
-                {{ t('com.' + (activeRule._menu.name) + '.name') || activeRule._menu.label }} <i
-                class="fc-icon icon-down" v-if="!disabled && menus.length"></i>
-            </template>
-            <template v-else>
-                {{
-                    t('com.' + (customForm.config.name) + '.name') || customForm.config.label || customForm.config.name
-                }}
-            </template>
-        </el-tag>
-        <template #dropdown>
-            <el-dropdown-menu>
-                <el-dropdown-item :command="item" v-for="item in menus" :key="item.name">
-                    <div><i class="fc-icon" :class="item.icon || 'icon-input'"></i>{{ t('com.' + (item.name) + '.name') || item.label }}</div>
-                </el-dropdown-item>
-            </el-dropdown-menu>
-        </template>
-    </el-dropdown>
+    <n-dropdown
+        class="_fd-type-select"
+        trigger="click"
+        :disabled="disabled || !menus.length"
+        :options="menuOptions"
+        :show-arrow="!disabled && menus.length"
+        @select="handleCommand"
+        placement="bottom-start"
+    >
+        <n-tag type="success" :bordered="false">
+            <span>
+                <template v-if="activeRule && !disabled && menus.length">
+                    <i class="fc-icon icon-down"></i>
+                </template>
+                <template v-else-if="!activeRule">
+                    <span>{{
+                        t('com.' + (customForm.config.name) + '.name') || customForm.config.label || customForm.config.name || 'Component'
+                    }}</span>
+                </template>
+                <template v-else>
+                    <span>&nbsp;</span>
+                </template>
+            </span>
+        </n-tag>
+    </n-dropdown>
 </template>
 
 <script>
 import {defineComponent} from 'vue';
+import {NDropdown, NTag} from 'naive-ui';
 
 export default defineComponent({
     name: 'TypeSelect',
     inject: ['designer'],
+    components: {
+        NDropdown,
+        NTag
+    },
     props: {
         disabled: Boolean,
     },
@@ -80,6 +89,12 @@ export default defineComponent({
                 }
             }
             return menus.filter(menu => this.designer.setupState.hiddenItem.indexOf(menu.name) === -1);
+        },
+        menuOptions() {
+            return this.menus.map(item => ({
+                label: (this.t('com.' + item.name + '.name') || item.label),
+                key: item
+            }));
         }
     },
     methods: {
@@ -124,20 +139,17 @@ export default defineComponent({
     cursor: pointer;
 }
 
-._fd-type-select.is-disabled {
-    cursor: default;
+._fd-type-select .n-tag {
+    cursor: pointer;
 }
 
 ._fd-type-select .fc-icon {
     font-size: 14px;
+    margin-left: 4px;
 }
 
-._fd-type-select-pop {
+._fd-type-select .n-dropdown-menu {
     max-height: 500px;
     overflow: auto;
-}
-
-._fd-type-select-pop .fc-icon {
-    font-size: 14px;
 }
 </style>

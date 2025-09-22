@@ -14,13 +14,13 @@
         <ShadowInput v-model="boxShadow" @change="onInput"></ShadowInput>
         <PositionInput v-model="position" @change="onInput"></PositionInput>
         <ConfigItem :label="t('style.opacity')" class="_fd-opacity-input">
-            <el-slider :show-tooltip="false" v-model="opacity"
-                       @change="onInput"></el-slider>
+            <n-slider :tooltip="false" v-model:value="opacity"
+                       @update:value="onInput"></n-slider>
             <span>{{ opacity }}%</span>
         </ConfigItem>
         <ConfigItem :label="t('style.scale')" class="_fd-opacity-input">
-            <el-slider :min="80" :max="120" :show-tooltip="false" v-model="scale"
-                       @change="onInput"></el-slider>
+            <n-slider :min="80" :max="120" :tooltip="false" v-model:value="scale"
+                       @update:value="onInput"></n-slider>
             <span>{{ scale }}%</span>
         </ConfigItem>
         <ConfigItem :label="t('props.custom')" :info="Object.keys(formData).length > 0 ? t('struct.configured') : ''">
@@ -49,6 +49,7 @@ import TableOptions from '../TableOptions.vue';
 import PositionInput from './PositionInput.vue';
 import toLine from '@form-create/utils/lib/toline';
 import toCase from "@form-create/utils/lib/tocase";
+import {NSlider} from 'naive-ui';
 
 const fontKey = [
     'fontFamily',
@@ -131,6 +132,7 @@ export default defineComponent({
         BorderInput,
         ShadowInput,
         FontInput,
+        NSlider,
     },
     props: {
         modelValue: {
@@ -143,10 +145,13 @@ export default defineComponent({
             this.tidyStyle();
         },
     },
+    computed: {
+        t() {
+            return this.designer.setupState.t;
+        }
+    },
     data() {
-        const t = this.designer.setupState.t;
         return {
-            t,
             formData: {},
             size: {},
             space: {},
@@ -292,7 +297,7 @@ export default defineComponent({
     width: 32px;
 }
 
-._fd-opacity-input .el-slider {
+._fd-opacity-input .n-slider {
     flex: 1;
     margin-right: 15px;
 }

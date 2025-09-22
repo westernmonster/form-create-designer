@@ -42,14 +42,14 @@ export default {
                 },
                 {
                     field: 'min',
-                    type: 'inputNumber',
+                    type: 'InputNumber',
                     props: {
                         min: 0
                     }
                 },
                 {
                     field: 'max',
-                    type: 'inputNumber',
+                    type: 'InputNumber',
                     props: {
                         min: 0
                     }

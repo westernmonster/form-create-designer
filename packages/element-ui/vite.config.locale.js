@@ -62,11 +62,11 @@ export default defineConfig((env) => {
                 },
             },
             emptyOutDir: false,
-        },
-        rollupOptions: {
-            output: {
-                exports: 'named',
-            }
+            rollupOptions: {
+                output: {
+                    exports: 'named',
+                }
+            },
         },
 
         plugins: [banner(getBanner(__banner__))]

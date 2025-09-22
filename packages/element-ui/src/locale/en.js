@@ -54,6 +54,7 @@ const En = {
         typePlaceholder: 'Please select',
         trigger: 'Trigger',
         mode: 'Verification method',
+        add: 'Add Validation',
         modes: {
             required: 'required',
             pattern: 'pattern',
@@ -451,7 +452,7 @@ const En = {
         timeRange: {
             name: 'TimeRange',
         },
-        elAlert: {
+        Alert: {
             name: 'Alert',
             description: 'Description',
             props: {
@@ -465,7 +466,7 @@ const En = {
                 effect: 'Select a provided theme'
             }
         },
-        elButton: {
+        Button: {
             name: 'Button',
             props: {
                 formCreateChild: 'Content',
@@ -478,14 +479,14 @@ const En = {
                 disabled: 'Disabled',
             }
         },
-        elCard: {
+        Card: {
             name: 'Card',
             props: {
                 header: 'Title',
                 shadow: 'Shadow display timing',
             }
         },
-        elCollapse: {
+        Collapse: {
             name: 'Collapse',
             event: {
                 change: 'Switch the currently active panel, its type is string in accordion mode and array in other modes',
@@ -494,7 +495,7 @@ const En = {
                 accordion: 'Whether it is in accordion mode'
             }
         },
-        elCollapseItem: {
+        CollapseItem: {
             name: 'CollapseItem',
             props: {
                 title: 'Panel title',
@@ -502,14 +503,14 @@ const En = {
                 disabled: 'Disabled',
             }
         },
-        elDivider: {
+        Divider: {
             name: 'Divider',
             props: {
                 formCreateChild: 'Set Content',
                 contentPosition: 'Set content position'
             }
         },
-        elTabPane: {
+        TabPane: {
             name: 'TabPane',
             props: {
                 label: 'Title',
@@ -518,7 +519,7 @@ const En = {
                 lazy: 'Whether the label is delayed in rendering'
             }
         },
-        elTabs: {
+        Tabs: {
             name: 'Tabs',
             event: {
                 tabClick: 'Triggered when tab is selected',
@@ -534,7 +535,7 @@ const En = {
                 stretch: 'Whether the width of the label is self-stretching'
             }
         },
-        elTag: {
+        Tag: {
             name: 'Tag',
             props: {
                 formCreateNative: 'Whether to display title',
@@ -550,7 +551,7 @@ const En = {
                 color: 'Background color'
             }
         },
-        elTransfer: {
+        Transfer: {
             name: 'Transfer',
             event: {
                 leftCheckChange: 'Triggered when the left list element is selected/unselected by the user',
@@ -566,7 +567,7 @@ const En = {
                 props: 'Field alias of data source'
             }
         },
-        elTreeSelect: {
+        TreeSelect: {
             name: 'TreeSelect',
             event: {
                 removeTag: 'Triggered when tag is removed in multi-select mode'
@@ -586,7 +587,7 @@ const En = {
                 nodeKey: 'Each tree node is used as an attribute for unique identification, and the entire tree should be unique'
             }
         },
-        elImage: {
+        Image: {
             name: 'Image',
             props: {
                 src: 'Image path'
@@ -669,6 +670,20 @@ const En = {
             }
         },
         inputNumber: {
+            name: 'InputNumber',
+            props: {
+                precision: 'Precision of input value',
+                min: 'Set the minimum value allowed for the counter',
+                max: 'Set the maximum allowed value of the counter',
+                step: 'Step',
+                stepStrictly: 'Whether only multiples of step can be entered',
+                disabled: 'Disabled',
+                controls: 'Whether to use control buttons',
+                controlsPosition: 'Control button position',
+                placeholder: 'Placeholder'
+            }
+        },
+        InputNumber: {
             name: 'InputNumber',
             props: {
                 precision: 'Precision of input value',

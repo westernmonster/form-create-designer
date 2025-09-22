@@ -1,51 +1,33 @@
 <template>
     <div class="_td-table-opt">
-        <el-table
+        <n-data-table
             :data="value"
-            border
+            :columns="tableColumns"
+            :bordered="true"
             :size="size || 'small'"
-            style="width: 100%">
-            <template v-for="(col,idx) in column" :key="col.label + idx">
-                <el-table-column :label="col.label">
-                    <template #default="scope">
-                        <template v-if="col.value">
-                            <ValueInput :size="size || 'small'" :modelValue="scope.row[col.key]" :disabled="disabled"
-                                        @update:modelValue="(n)=>(scope.row[col.key] = n)"
-                                        @blur="onInput(scope.row)" @change-type="onInput(scope.row)"></ValueInput>
-                        </template>
-                        <template v-else>
-                            <el-input :size="size || 'small'" :disabled="disabled" :modelValue="scope.row[col.key] || ''"
-                                      @Update:modelValue="(n)=>(scope.row[col.key] = n)"
-                                      @blur="onInput(scope.row)"></el-input>
-                        </template>
-                    </template>
-                </el-table-column>
-            </template>
-            <el-table-column width="45" align="center" fixed="right" v-if="!disabled">
-                <template #default="scope">
-                    <i class="fc-icon icon-delete" @click="del(scope.$index)"></i>
-                </template>
-            </el-table-column>
-        </el-table>
+            style="width: 100%"
+        />
         <div class="_td-table-opt-handle">
-            <el-button link type="primary" @click="add" v-if="!max || max > value.length">
-                <i class="fc-icon icon-add"></i> {{ t('tableOptions.add') }}
-            </el-button>
+            <n-button text type="primary" @click="add" v-if="!max || max > value.length">
+            </n-button>
         </div>
-
     </div>
 </template>
 
 <script>
-import {defineComponent} from 'vue';
+import {defineComponent, h} from 'vue';
 import {copy} from '@form-create/utils/lib/extend';
+import {NDataTable, NButton, NInput} from 'naive-ui';
 import ValueInput from './ValueInput.vue';
 
 export default defineComponent({
     name: 'TableOptions',
     emits: ['update:modelValue', 'change'],
     components: {
-        ValueInput
+        ValueInput,
+        NDataTable,
+        NButton,
+        NInput
     },
     props: {
         modelValue: [Array, Object],
@@ -68,6 +50,55 @@ export default defineComponent({
         t() {
             return this.designer.setupState.t;
         },
+        tableColumns() {
+            const columns = this.column.map(col => ({
+                title: col.label,
+                key: col.key,
+                render: (row, index) => {
+                    if (col.value) {
+                        return h(ValueInput, {
+                            size: this.size || 'small',
+                            modelValue: row[col.key],
+                            disabled: this.disabled,
+                            'onUpdate:modelValue': (n) => {
+                                row[col.key] = n;
+                            },
+                            onBlur: () => this.onInput(row),
+                            'onChange-type': () => this.onInput(row)
+                        });
+                    } else {
+                        return h(NInput, {
+                            size: this.size || 'small',
+                            disabled: this.disabled,
+                            value: row[col.key] || '',
+                            'onUpdate:value': (n) => {
+                                row[col.key] = n;
+                            },
+                            onBlur: () => this.onInput(row)
+                        });
+                    }
+                }
+            }));
+
+            if (!this.disabled) {
+                columns.push({
+                    title: '',
+                    key: 'actions',
+                    width: 45,
+                    align: 'center',
+                    fixed: 'right',
+                    render: (row, index) => {
+                        return h('i', {
+                            class: 'fc-icon icon-delete',
+                            style: { cursor: 'pointer' },
+                            onClick: () => this.del(index)
+                        });
+                    }
+                });
+            }
+
+            return columns;
+        }
     },
     data() {
         return {
@@ -150,14 +181,23 @@ export default defineComponent({
     width: 100%;
 }
 
-._td-table-opt .el-table {
+._td-table-opt .n-data-table {
     z-index: 1;
 }
 
 ._td-table-opt-handle {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    padding-right: 5px;
+    padding: 8px 5px 0 0;
+}
+
+._td-table-opt-handle .n-button {
+    display: flex;
+    align-items: center;
+}
+
+._td-table-opt-handle .fc-icon {
+    margin-right: 4px;
 }
 </style>

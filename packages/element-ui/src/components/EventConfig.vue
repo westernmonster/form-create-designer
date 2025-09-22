@@ -1,61 +1,28 @@
 <template>
     <div class="_fd-event">
-        <el-badge :value="eventNum" type="warning" :hidden="eventNum < 1">
-            <el-button size="small" @click="visible=true">{{ t('event.title') }}</el-button>
-        </el-badge>
-        <el-dialog class="_fd-event-dialog" :title="t('event.title')" v-model="visible" destroy-on-close
-                   :close-on-click-modal="false"
-                   append-to-body
-                   width="1080px">
-            <el-container class="_fd-event-con" style="height: 600px">
-                <el-aside style="width:300px;">
-                    <el-container class="_fd-event-l">
-                        <el-header class="_fd-event-head" height="40px">
-                            <el-dropdown popper-class="_fd-event-dropdown" trigger="click" size="default"
-                                         :placement="'bottom-start'">
-                              <span class="el-dropdown-link">
-                                <el-button link type="primary" size="default">
-                                    {{ t('event.create') }}<i class="el-icon-arrow-down el-icon--right"></i>
-                                </el-button>
-                              </span>
-                                <template #dropdown>
-                                    <el-dropdown-menu>
-                                        <el-dropdown-item v-for="name in eventList" :key="name" @click="add(name)"
-                                                          :disabled="Object.keys(event).indexOf(name) > -1">
-                                            <div class="_fd-event-item">
-                                                <span>{{ name }}</span>
-                                                <span class="_fd-label" v-if="eventInfo[name]">
-                                                    {{ eventInfo[name] }}
-                                                </span>
-                                            </div>
-                                        </el-dropdown-item>
-                                        <template v-for="(hook, idx) in hookList">
-                                            <el-dropdown-item :divided="eventList.length > 0 && !idx"
-                                                              @click="add(hook)"
-                                                              :disabled="Object.keys(event).indexOf(hook) > -1">
-                                                <div class="_fd-event-item">
-                                                    <div> {{ hook }}</div>
-                                                    <span class="_fd-label">
-                                                    {{ eventInfo[hook] }}
-                                                </span>
-                                                </div>
-                                            </el-dropdown-item>
-                                        </template>
-                                        <el-dropdown-item :divided="eventList.length > 0" @click="cusEvent">
-                                            <div>{{ t('props.custom') }}</div>
-                                        </el-dropdown-item>
-                                    </el-dropdown-menu>
-                                </template>
-                            </el-dropdown>
-                        </el-header>
-                        <el-main>
-                            <el-menu
-                                :default-active="defActive"
-                                v-model="activeData">
-                                <template v-for="(item, name) in event">
+        <n-badge :value="eventNum" type="warning" :show="eventNum >= 1">
+        </n-badge>
+        <n-modal class="_fd-event-dialog" :title="t('event.title')" v-model:show="visible"
+                 :mask-closable="false"
+                 preset="dialog"
+                 style="width: 1080px">
+            <n-layout class="_fd-event-con" style="height: 600px">
+                <n-layout-sider style="width: 300px;">
+                    <n-layout class="_fd-event-l">
+                        <n-layout-header class="_fd-event-head" style="height: 40px; padding: 5px 15px;">
+                            <n-dropdown trigger="click" size="medium" placement="bottom-start" :options="createOptions" @select="handleCreateSelect">
+                                <n-button text type="primary" size="medium">
+                                    <i class="fc-icon icon-add"></i>
+                                    {{ t('event.create') }}
+                                </n-button>
+                            </n-dropdown>
+                        </n-layout-header>
+                        <n-layout-content>
+                            <div class="_fd-event-menu">
+                                <template v-for="(item, name) in event" :key="name">
                                     <template v-if="Array.isArray(item)">
                                         <template v-for="(event, index) in item" :key="name + index">
-                                            <el-menu-item :index="name + index">
+                                            <div class="_fd-event-item">
                                                 <div class="_fd-event-title"
                                                      @click.stop="edit({name, item, index})">
                                                     <div class="_fd-event-method">
@@ -68,10 +35,10 @@
                                                     <i class="fc-icon icon-delete"
                                                        @click.stop="rm({name, item, index})"></i>
                                                 </div>
-                                            </el-menu-item>
+                                            </div>
                                         </template>
                                     </template>
-                                    <el-menu-item v-else :index="name + 0">
+                                    <div class="_fd-event-item" v-else>
                                         <div class="_fd-event-title" @click.stop="edit({name})">
                                             <div class="_fd-event-method">
                                                 <span>function<span>{{
@@ -82,54 +49,52 @@
                                             </div>
                                             <i class="fc-icon icon-delete" @click.stop="rm({name})"></i>
                                         </div>
-                                    </el-menu-item>
+                                    </div>
                                 </template>
-                                <el-menu-item v-if="cus" style="padding-left: 10px;" index="custom">
+                                <div class="_fd-event-item" v-if="cus" style="padding-left: 10px;">
                                     <div class="_fd-event-title" @click.stop>
-                                        <el-input type="text" v-model="cusValue" size="default"
-                                                  @keydown.enter="addCus"
-                                                  :placeholder="t('event.placeholder')">
-                                        </el-input>
+                                        <n-input type="text" v-model:value="cusValue" size="medium"
+                                                 @keydown.enter="addCus"
+                                                 :placeholder="t('event.placeholder')">
+                                        </n-input>
                                         <div>
                                             <i class="fc-icon icon-add" @click.stop="addCus"></i>
                                             <i class="fc-icon icon-delete" @click.stop="closeCus"></i>
                                         </div>
                                     </div>
-                                </el-menu-item>
-                            </el-menu>
-                        </el-main>
-                    </el-container>
-                </el-aside>
-                <el-main>
-                    <el-container class="_fd-event-r">
-                        <el-header class="_fd-event-head" height="40px" v-if="activeData">
+                                </div>
+                            </div>
+                        </n-layout-content>
+                    </n-layout>
+                </n-layout-sider>
+                <n-layout-content>
+                    <n-layout class="_fd-event-r">
+                        <n-layout-header class="_fd-event-head" style="height: 40px; padding: 5px 15px;" v-if="activeData">
                             <div><a target="_blank" href="https://form-create.com/v3/instance/">{{t('form.document')}}</a></div>
                             <div>
-                                <el-button size="small" @click="close">{{ t('props.cancel') }}</el-button>
-                                <el-button size="small" type="primary" @click="save" color="#2f73ff">{{
+                                <n-button size="small" type="primary" @click="save" style="color: #2f73ff">{{
                                         t('props.save')
                                     }}
-                                </el-button>
+                                </n-button>
                             </div>
-                        </el-header>
-                        <el-main v-if="activeData">
+                        </n-layout-header>
+                        <n-layout-content v-if="activeData">
                             <FnEditor ref="fn" v-model="eventStr" body :name="activeData.name"
                                       :args="fnArgs"
                                       style="height: 519px;"/>
-                        </el-main>
-                    </el-container>
-                </el-main>
-            </el-container>
-            <template #footer>
+                        </n-layout-content>
+                    </n-layout>
+                </n-layout-content>
+            </n-layout>
+            <template #action>
                 <div>
-                    <el-button size="default" @click="visible=false">{{ t('props.cancel') }}</el-button>
-                    <el-button type="primary" size="default" @click="submit" color="#2f73ff">{{
+                    <n-button type="primary" size="medium" @click="submit" style="color: #2f73ff">{{
                             t('props.ok')
                         }}
-                    </el-button>
+                    </n-button>
                 </div>
             </template>
-        </el-dialog>
+        </n-modal>
     </div>
 </template>
 
@@ -141,6 +106,7 @@ import {defineComponent} from 'vue';
 import FnEditor from './FnEditor.vue';
 import errorMessage from '../utils/message';
 import {getInjectArg} from '../utils';
+import {NBadge, NButton, NModal, NLayout, NLayoutSider, NLayoutHeader, NLayoutContent, NDropdown, NInput, NIcon} from 'naive-ui';
 
 const $T = '$FNX:';
 
@@ -162,6 +128,16 @@ export default defineComponent({
     inject: ['designer'],
     components: {
         FnEditor,
+        NBadge,
+        NButton,
+        NModal,
+        NLayout,
+        NLayoutSider,
+        NLayoutHeader,
+        NLayoutContent,
+        NDropdown,
+        NInput,
+        NIcon
     },
     data() {
         return {
@@ -221,6 +197,34 @@ export default defineComponent({
         },
         fnArgs() {
             return [getInjectArg(this.t)];
+        },
+        createOptions() {
+            const options = [];
+            this.eventList.forEach(name => {
+                options.push({
+                    label: name + (this.eventInfo[name] ? ` - ${this.eventInfo[name]}` : ''),
+                    key: name,
+                    disabled: Object.keys(this.event).indexOf(name) > -1
+                });
+            });
+            if (this.eventList.length > 0 && this.hookList.length > 0) {
+                options.push({ type: 'divider' });
+            }
+            this.hookList.forEach(hook => {
+                options.push({
+                    label: hook + (this.eventInfo[hook] ? ` - ${this.eventInfo[hook]}` : ''),
+                    key: hook,
+                    disabled: Object.keys(this.event).indexOf(hook) > -1
+                });
+            });
+            if (this.eventList.length > 0 || this.hookList.length > 0) {
+                options.push({ type: 'divider' });
+            }
+            options.push({
+                label: this.t('props.custom'),
+                key: 'custom'
+            });
+            return options;
         }
     },
     watch: {
@@ -233,6 +237,13 @@ export default defineComponent({
         },
     },
     methods: {
+        handleCreateSelect(key) {
+            if (key === 'custom') {
+                this.cusEvent();
+            } else {
+                this.add(key);
+            }
+        },
         addCus() {
             const val = this.cusValue && this.cusValue.trim();
             if (val) {
@@ -404,22 +415,22 @@ export default defineComponent({
 
 <style>
 
-._fd-event .el-button {
+._fd-event .n-button {
     font-weight: 400;
     width: 100%;
     border-color: #2E73FF;
     color: #2E73FF;
 }
 
-._fd-event .el-badge {
+._fd-event .n-badge {
     width: 100%;
 }
 
-._fd-event-dialog .el-dialog__body {
+._fd-event-dialog .n-modal-body {
     padding: 10px 20px;
 }
 
-._fd-event-con .el-main {
+._fd-event-con .n-layout-content {
     padding: 0;
 }
 
@@ -431,7 +442,7 @@ export default defineComponent({
     border: 1px solid #ececec;
 }
 
-._fd-event-dropdown .el-dropdown-menu {
+._fd-event-dropdown .n-dropdown-menu {
     max-height: 500px;
     overflow: auto;
 }
@@ -444,7 +455,7 @@ export default defineComponent({
     align-items: center;
 }
 
-._fd-event-head .el-button.is-link {
+._fd-event-head .n-button--text {
     color: #2f73ff;
 }
 
@@ -456,7 +467,7 @@ export default defineComponent({
     justify-content: space-between;
 }
 
-._fd-event-l > .el-main, ._fd-event-r > .el-main {
+._fd-event-l > .n-layout-content, ._fd-event-r > .n-layout-content {
     display: flex;
     flex-direction: row;
     flex: 1;
@@ -466,7 +477,7 @@ export default defineComponent({
     width: 100%;
 }
 
-._fd-event-r > .el-main {
+._fd-event-r > .n-layout-content {
     flex-direction: column;
 }
 
@@ -485,7 +496,7 @@ export default defineComponent({
     color: #AAAAAA;
 }
 
-._fd-event-l .el-menu {
+._fd-event-l .n-menu {
     padding: 0 10px 5px;
     border-right: 0 none;
     width: 100%;
@@ -493,12 +504,12 @@ export default defineComponent({
     overflow: auto;
 }
 
-._fd-event-l .el-menu-item.is-active {
+._fd-event-l .n-menu-item--selected {
     background: #e4e7ed;
     color: #303133;
 }
 
-._fd-event-l .el-menu-item {
+._fd-event-l .n-menu-item {
     height: auto;
     line-height: 1em;
     border: 1px solid #ECECEC;
@@ -548,15 +559,15 @@ export default defineComponent({
     color: #282828;
 }
 
-._fd-event-title .el-input {
+._fd-event-title .n-input {
     width: 200px;
 }
 
-._fd-event-title .el-input__wrapper {
+._fd-event-title .n-input .n-input__input-el {
     box-shadow: none;
 }
 
-._fd-event-title .el-menu-item.is-active i {
+._fd-event-title .n-menu-item--selected i {
     color: #282828;
 }
 

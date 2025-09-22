@@ -1,7 +1,7 @@
 import {localeProps} from '../../utils';
 
 const label = '提示';
-const name = 'elAlert';
+const name = 'Alert';
 
 export default {
     menu: 'aide',
@@ -13,8 +13,8 @@ export default {
         return {
             type: name,
             props: {
-                title: t('com.elAlert.name'),
-                description: t('com.elAlert.description'),
+                title: t('com.Alert.name'),
+                description: t('com.Alert.description'),
                 type: 'success',
                 effect: 'dark',
             },

@@ -2,35 +2,26 @@
     <div class="_fd-box-size-input">
         <ConfigItem :label="t('props.size')" :info="Object.keys(modelValue).length > 0 ? t('struct.configured') : ''">
             <template #append>
-                <el-form label-position="top" size="small">
-                    <el-form-item :label="t('style.' + key)" v-for="key in keys" :key="key">
+                <n-form label-placement="top" size="small">
+                    <n-form-item :label="t('style.' + key)" v-for="key in keys" :key="key">
                         <SizeInput v-model="boxStyle[key]" @change="onInput"></SizeInput>
-                    </el-form-item>
-                    <el-form-item :label="t('style.overflow.name')" style="grid-column: span 2;">
-                        <el-radio-group :modelValue="boxStyle.overflow">
-                            <el-tooltip
-                                effect="dark"
-                                :content="t('style.overflow.' + item.value)"
-                                placement="top"
-                                persistent
-                                :hide-after="0"
-                                v-for="item in overflow"
-                                :key="item.value"
-                            >
-                                <el-radio-button :label="item.value" :value="item.value"
-                                                 @click="changeOverflow(item.value)">
-                                    <template v-if="item.text">
-                                        <span style="font-size: 12px;line-height: 16px;">Auto
-                                        </span>
-                                    </template>
-                                    <template v-else>
-                                        <i class="fc-icon" :class="item.icon"></i>
-                                    </template>
-                                </el-radio-button>
-                            </el-tooltip>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-form>
+                    </n-form-item>
+                    <n-form-item :label="t('style.overflow.name')" style="grid-column: span 2;">
+                        <n-radio-group :value="boxStyle.overflow">
+                            <n-radio-button v-for="item in overflow"
+                                           :key="item.value"
+                                           :value="item.value"
+                                           @click="changeOverflow(item.value)">
+                                <template v-if="item.text">
+                                    <span style="font-size: 12px;line-height: 16px;">Auto</span>
+                                </template>
+                                <template v-else>
+                                    <i class="fc-icon" :class="item.icon"></i>
+                                </template>
+                            </n-radio-button>
+                        </n-radio-group>
+                    </n-form-item>
+                </n-form>
             </template>
         </ConfigItem>
     </div>
@@ -40,10 +31,11 @@
 import {defineComponent} from 'vue';
 import ConfigItem from './ConfigItem.vue';
 import SizeInput from './SizeInput.vue';
+import {NForm, NFormItem, NRadioGroup, NRadioButton, NTooltip} from 'naive-ui';
 
 export default defineComponent({
     name: 'BoxSizeInput',
-    components: {SizeInput, ConfigItem},
+    components: {SizeInput, ConfigItem, NForm, NFormItem, NRadioGroup, NRadioButton, NTooltip},
     props: {
         modelValue: {
             type: Object,
@@ -140,27 +132,27 @@ export default defineComponent({
 </script>
 
 <style>
-._fd-box-size-input .el-form {
+._fd-box-size-input .n-form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
     grid-column-gap: 10px;
 }
 
-._fd-box-size-input .el-radio-group {
+._fd-box-size-input .n-radio-group {
     width: 100%;
 }
 
-._fd-box-size-input .el-radio-button__inner {
+._fd-box-size-input .n-radio-button {
     width: 100%;
     padding: 4px;
 }
 
-._fd-box-size-input .el-radio-button {
+._fd-box-size-input .n-radio-button__state-border {
     flex: 1;
 }
 
-._fd-box-size-input ._fd-size-input .el-input-number--small {
+._fd-box-size-input ._fd-size-input .n-input-number {
     width: 100%;
 }
 </style>

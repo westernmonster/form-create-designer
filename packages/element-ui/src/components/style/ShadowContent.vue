@@ -1,63 +1,47 @@
 <template>
     <div class="_fd-shadow-content">
-        <el-form label-width="50px" label-position="top" inline class="_fd-sc-form" size="small">
-            <el-form-item :label="t('style.shadow.mode')">
-                <el-radio-group v-model="form.type" @change="onInput" size="small" class="_fd-sc-radio">
+        <n-form label-placement="top" inline class="_fd-sc-form" size="small">
+            <n-form-item :label="t('style.shadow.mode')">
+                <n-radio-group v-model:value="form.type" @update:value="onInput" size="small" class="_fd-sc-radio">
                     <template v-for="item in options" :key="item.key">
-                        <el-tooltip
-                            effect="dark"
-                            :content="t('style.shadow.' + item.key)"
-                            placement="top"
-                            :hide-after="0"
-                            persistent
-                        >
-                            <el-radio-button :label="item.key" :value="item.key">
-                                <i class="fc-icon" :class="'icon-' + item.icon"></i>
-                            </el-radio-button>
-                        </el-tooltip>
+                        <n-radio-button :value="item.key">
+                            <i class="fc-icon" :class="'icon-' + item.icon"></i>
+                        </n-radio-button>
                     </template>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item :label="t('style.color')">
+                </n-radio-group>
+            </n-form-item>
+            <n-form-item :label="t('style.color')">
                 <ColorInput v-model="form.color" @change="onInput"></ColorInput>
-            </el-form-item>
-            <el-form-item :label="t('style.shadow.x')">
-                <el-input v-model="form.x" type="number" @change="onInput">
-                    <template #append>
-                        <el-select v-model="form.x_unit" @change="onInput">
-                            <el-option v-for="item in units" :key="item" :label="item" :value="item"/>
-                        </el-select>
+            </n-form-item>
+            <n-form-item :label="t('style.shadow.x')">
+                <n-input v-model:value="form.x" type="number" @update:value="onInput">
+                    <template #suffix>
+                        <n-select v-model:value="form.x_unit" @update:value="onInput" :options="unitOptions" style="width: 55px;"/>
                     </template>
-                </el-input>
-            </el-form-item>
-            <el-form-item :label="t('style.shadow.y')">
-                <el-input v-model="form.y" type="number" @change="onInput">
-                    <template #append>
-                        <el-select v-model="form.y_unit" @change="onInput">
-                            <el-option v-for="item in units" :key="item" :label="item" :value="item"/>
-                        </el-select>
+                </n-input>
+            </n-form-item>
+            <n-form-item :label="t('style.shadow.y')">
+                <n-input v-model:value="form.y" type="number" @update:value="onInput">
+                    <template #suffix>
+                        <n-select v-model:value="form.y_unit" @update:value="onInput" :options="unitOptions" style="width: 55px;"/>
                     </template>
-                </el-input>
-            </el-form-item>
-            <el-form-item :label="t('style.shadow.vague')">
-                <el-input v-model="form.vague" type="number" @change="onInput">
-                    <template #append>
-                        <el-select v-model="form.vague_unit" @change="onInput">
-                            <el-option v-for="item in units" :key="item" :label="item" :value="item"/>
-                        </el-select>
+                </n-input>
+            </n-form-item>
+            <n-form-item :label="t('style.shadow.vague')">
+                <n-input v-model:value="form.vague" type="number" @update:value="onInput">
+                    <template #suffix>
+                        <n-select v-model:value="form.vague_unit" @update:value="onInput" :options="unitOptions" style="width: 55px;"/>
                     </template>
-                </el-input>
-            </el-form-item>
-            <el-form-item :label="t('style.shadow.extend')">
-                <el-input v-model="form.extend" type="number" @change="onInput">
-                    <template #append>
-                        <el-select v-model="form.extend_unit" @change="onInput">
-                            <el-option v-for="item in units" :key="item" :label="item" :value="item"/>
-                        </el-select>
+                </n-input>
+            </n-form-item>
+            <n-form-item :label="t('style.shadow.extend')">
+                <n-input v-model:value="form.extend" type="number" @update:value="onInput">
+                    <template #suffix>
+                        <n-select v-model:value="form.extend_unit" @update:value="onInput" :options="unitOptions" style="width: 55px;"/>
                     </template>
-                </el-input>
-            </el-form-item>
-        </el-form>
+                </n-input>
+            </n-form-item>
+        </n-form>
         <div class="_fd-sc-right">
             <div
                 ref="box"
@@ -83,10 +67,11 @@
 <script>
 import {defineComponent} from 'vue';
 import ColorInput from './ColorInput.vue';
+import {NForm, NFormItem, NRadioGroup, NRadioButton, NTooltip, NInput, NSelect} from 'naive-ui';
 
 export default defineComponent({
     name: 'ShadowContent',
-    components: {ColorInput},
+    components: {ColorInput, NForm, NFormItem, NRadioGroup, NRadioButton, NTooltip, NInput, NSelect},
     inject: ['designer'],
     emits: ['update:modelValue', 'change'],
     props: {
@@ -132,6 +117,9 @@ export default defineComponent({
         },
         t() {
             return this.designer.setupState.t;
+        },
+        unitOptions() {
+            return this.units.map(unit => ({ label: unit, value: unit }));
         },
     },
     watch: {
@@ -228,19 +216,19 @@ export default defineComponent({
     font-size: 12px;
 }
 
-._fd-shadow-content .el-form {
+._fd-shadow-content .n-form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
     grid-column-gap: 10px;
 }
 
-._fd-shadow-content .el-form-item {
+._fd-shadow-content .n-form-item {
     display: grid !important;
     margin: 0 !important;
 }
 
-._fd-shadow-content .el-input__wrapper {
+._fd-shadow-content .n-input__input-el {
     flex: 1;
 }
 
@@ -302,16 +290,16 @@ export default defineComponent({
     background: #ccc
 }
 
-._fd-shadow-content .el-select__placeholder {
+._fd-shadow-content .n-select__placeholder {
     text-align: center;
 }
 
-._fd-shadow-content .el-input-group__append {
+._fd-shadow-content .n-input__suffix {
     width: 55px;
     padding: 0;
 }
 
-._fd-shadow-content .el-input, ._fd-shadow-content ._fd-color-input {
+._fd-shadow-content .n-input, ._fd-shadow-content ._fd-color-input {
     width: 100%;
 }
 
@@ -323,12 +311,12 @@ export default defineComponent({
     width: 100%;
 }
 
-._fd-shadow-content ._fd-sc-radio .el-radio-button {
+._fd-shadow-content ._fd-sc-radio .n-radio-button {
     display: flex;
     flex: 1;
 }
 
-._fd-shadow-content ._fd-sc-radio .el-radio-button__inner {
+._fd-shadow-content ._fd-sc-radio .n-radio-button__state-border {
     width: 100%;
 }
 

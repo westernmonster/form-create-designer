@@ -1,20 +1,13 @@
 <template>
     <div class="_fd-shadow-input">
         <ConfigItem :label="t('style.shadow.name')">
-            <el-input clearable v-model="value" class="_fd-si-input">
-                <template #append>
-                    <el-dropdown>
+            <n-input clearable v-model:value="value" class="_fd-si-input">
+                <template #suffix>
+                    <n-dropdown :options="dropdownOptions" @select="changeValue">
                         <i class="fc-icon icon-setting"></i>
-                        <template #dropdown>
-                            <el-dropdown-menu>
-                                <el-dropdown-item v-for="item in options" @click="changeValue(item.value)">
-                                    {{ item.label }}
-                                </el-dropdown-item>
-                            </el-dropdown-menu>
-                        </template>
-                    </el-dropdown>
+                    </n-dropdown>
                 </template>
-            </el-input>
+            </n-input>
             <template #append>
                 <ShadowContent v-model="value"></ShadowContent>
             </template>
@@ -26,11 +19,12 @@
 import {defineComponent} from 'vue';
 import ShadowContent from './ShadowContent.vue';
 import ConfigItem from './ConfigItem.vue';
+import {NInput, NDropdown} from 'naive-ui';
 
 export default defineComponent({
     name: 'ShadowInput',
     emits: ['update:modelValue', 'change'],
-    components: {ConfigItem, ShadowContent},
+    components: {ConfigItem, ShadowContent, NInput, NDropdown},
     inject: ['designer'],
     props: {
         modelValue: String,
@@ -44,21 +38,26 @@ export default defineComponent({
             this.$emit('change', n);
         },
     },
+    computed: {
+        t() {
+            return this.designer.setupState.t;
+        },
+        dropdownOptions() {
+            return [
+                {label: this.t('style.shadow.classic'), key: '3px 5px 7px 2px #CBCBCBFF'},
+                {label: this.t('style.shadow.flat'), key: '4px 4px 3px -2px #E7E5E5FF'},
+                {label: this.t('style.shadow.solid'), key: '1px 2px 4px 2px #979797FF'}
+            ];
+        }
+    },
     data() {
-        const t = this.designer.setupState.t;
         return {
-            t,
-            options: [
-                {label: t('style.shadow.classic'), value: '3px 5px 7px 2px #CBCBCBFF'},
-                {label: t('style.shadow.flat'), value: '4px 4px 3px -2px #E7E5E5FF'},
-                {label: t('style.shadow.solid'), value: '1px 2px 4px 2px #979797FF'}
-            ],
             value: this.modelValue || ''
         }
     },
     methods: {
-        changeValue(val) {
-            this.value = val;
+        changeValue(key) {
+            this.value = key;
         },
     },
     created() {
@@ -76,14 +75,12 @@ export default defineComponent({
     outline: 0 none;
 }
 
-._fd-si-input .el-input-group__append {
-    display: inline-flex;
+._fd-si-input .n-input .n-input__suffix {
     width: 24px;
     padding: 0;
-}
-
-._fd-si-input .el-input__wrapper {
-    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 ._fd-shadow-input ._fd-ci-con .fc-icon {

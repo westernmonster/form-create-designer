@@ -27,15 +27,15 @@ export default {
             type: 'switch',
             field: 'range'
         }, {
-            type: 'inputNumber',
+            type: 'InputNumber',
             field: 'min',
             props: {min: 0}
         }, {
-            type: 'inputNumber',
+            type: 'InputNumber',
             field: 'max',
             props: {min: 0},
         }, {
-            type: 'inputNumber',
+            type: 'InputNumber',
             field: 'step',
             props: {min: 0},
         }, {type: 'switch', field: 'showInput'}, {

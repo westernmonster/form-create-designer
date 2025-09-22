@@ -1,7 +1,7 @@
 import {localeProps} from '../../utils';
 
 const label = '面板';
-const name = 'elCollapseItem';
+const name = 'CollapseItem';
 
 export default {
     icon: 'icon-cell',
@@ -15,7 +15,7 @@ export default {
         return {
             type: name,
             props: {
-                title: t('com.elCollapseItem.name')
+                title: t('com.CollapseItem.name')
             },
             style: {},
             children: []

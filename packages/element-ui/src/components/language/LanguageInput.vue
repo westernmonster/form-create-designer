@@ -1,19 +1,18 @@
 <template>
-    <el-input class="_fd-language-input" :class="{'is-variable': isVar}" :placeholder="placeholder" :disabled="disabled"
-              :modelValue="modelValue"
-              @update:modelValue="onInput"
-              @blur="$emit('blur')"
-              :size="size || 'small'">
-        <template #append v-if="showLanguage !== false">
-            <el-popover placement="bottom-end" :width="300" :hide-after="0" trigger="click" ref="pop"
-                        popper-class="_fd-language-popover">
-                <template #reference>
-                    <i class="fc-icon icon-language"></i>
+    <n-input class="_fd-language-input" :class="{'is-variable': isVar}" :placeholder="placeholder" :disabled="disabled"
+             :value="modelValue"
+             @update:value="onInput"
+             @blur="$emit('blur')"
+             :size="size || 'small'">
+        <template #suffix v-if="showLanguage !== false">
+            <n-popover placement="bottom-end" style="width: 300px" trigger="click" ref="pop"
+                       :to="false">
+                <template #trigger>
+                    <i class="fc-icon icon-language" style="cursor: pointer;"></i>
                 </template>
                 <div class="_fd-language-list">
                     <div class="_fd-language-header">
                         <div class="_fd-language-title">
-                            {{ t('language.select') }}<i class="fc-icon icon-setting" @click="openConfig"></i>
                         </div>
                         <div class="_fd-language-name">
                             <template v-for="item in localeList" :key="item.value">
@@ -29,16 +28,21 @@
                         </div>
                     </template>
                 </div>
-            </el-popover>
+            </n-popover>
         </template>
-    </el-input>
+    </n-input>
 </template>
 
 <script>
 import {defineComponent} from 'vue';
+import {NInput, NPopover} from 'naive-ui';
 
 export default defineComponent({
     name: 'LanguageInput',
+    components: {
+        NInput,
+        NPopover
+    },
     inject: ['designer'],
     emits: ['update:modelValue', 'blur', 'change'],
     props: {
@@ -98,7 +102,7 @@ export default defineComponent({
         },
         clickLang(key) {
             this.onInput(`{{$t.${key}}}`);
-            this.$refs.pop.hide();
+            this.$refs.pop.setShow(false);
         },
         onInput(val) {
             this.$emit('update:modelValue', val);
@@ -118,7 +122,7 @@ export default defineComponent({
     overflow: auto;
 }
 
-._fd-language-input .el-input-group__append {
+._fd-language-input .n-input__suffix {
     width: 25px;
     padding: 0;
     margin: 0;
@@ -185,7 +189,7 @@ export default defineComponent({
     background-color: #CCDFFF;
 }
 
-._fd-language-popover {
+._fd-language-input .n-popover {
     padding: 0 !important;
 }
 </style>

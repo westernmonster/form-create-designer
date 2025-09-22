@@ -1,7 +1,7 @@
 import {localeOptions, localeProps} from '../../utils';
 
 const label = '标签页';
-const name = 'elTabs';
+const name = 'Tabs';
 
 export default {
     menu: 'layout',
@@ -10,7 +10,7 @@ export default {
     name,
     mask: false,
     event: ['tabClick', 'tabChange', 'tabRemove', 'tabAdd', 'edit'],
-    children: 'elTabPane',
+    children: 'TabPane',
     rule() {
         return {
             type: name,

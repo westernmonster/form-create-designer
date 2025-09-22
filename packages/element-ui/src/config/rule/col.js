@@ -37,14 +37,14 @@ export default {
                 },
                 children: [
                     {
-                        type: 'elTabs',
+                        type: 'nTabs',
                         style: {
                             width: '100%'
                         },
                         slot: 'append',
                         children: Object.keys(devices).map(k => {
                             return {
-                                type: 'elTabPane',
+                                type: 'nTabPane',
                                 props: {
                                     label: devices[k]
                                 },
